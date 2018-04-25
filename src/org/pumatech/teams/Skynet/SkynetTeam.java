@@ -11,7 +11,7 @@ public class SkynetTeam extends Team{
 	}
 	
 	public SkynetTeam(Color color) {
-		this("Team Skynet", color);
+		this("Skynet", color);
 	}
 	
 	public SkynetTeam(String name, Color color) {

@@ -7,6 +7,8 @@ import org.pumatech.ctf.*;
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
+/* This is the main offensive player on Skynet's team. */
+
 public class Snowminator extends AbstractPlayer {
 	
 	public Snowminator(Location startLocation) {
@@ -45,11 +47,13 @@ public class Snowminator extends AbstractPlayer {
 		for(Location l : scan) {
 			int a = this.getLocation().getDirectionToward(l);
 			if(Math.abs(this.getLocation().getDirectionToward(target)-a) < minDir) {
-				best = l;
-				minDir = a;
+				if(getGrid().getEmptyAdjacentLocations(l).size() > 1) {
+					best = l;
+					minDir = a;
+				}
 			}
 		}
 		return best;
 	}
-
+	
 }

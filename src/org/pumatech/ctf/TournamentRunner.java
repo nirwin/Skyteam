@@ -15,7 +15,7 @@ public class TournamentRunner {
 		List<Team> teams = new ArrayList<Team>();
 		teams.add(new SkynetTeam(Color.RED));
 		teams.add(new SampleTeam(Color.BLUE));
-		teams.add(new SampleTeam(Color.YELLOW));
+		teams.add(new SkynetTeam(Color.YELLOW));
 		teams.add(new SampleTeam(Color.WHITE));
 		
 		Bracket bracket = new Bracket(teams);
