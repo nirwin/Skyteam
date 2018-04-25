@@ -1,24 +1,13 @@
 package org.pumatech.teams.Skynet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.pumatech.ctf.*;
 
 import info.gridworld.actor.Actor;
-//import info.gridworld.actor.Rock;
-import info.gridworld.grid.Grid;
-//import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 public class T850 extends AbstractPlayer {
-
-	//Location myLoc = this.getLocation();
-	Grid<Actor> myGrid = this.getGrid();
-	Team myTeam = this.getTeam();
-	Team theirTeam = myTeam.getOpposingTeam();
-	List<AbstractPlayer> theirPlayers = theirTeam.getPlayers();
-	Flag theirFlag = theirTeam.getFlag();
 	
 	public T850(Location startLocation) {
 		super(startLocation);
@@ -29,6 +18,7 @@ public class T850 extends AbstractPlayer {
 		if (possibleMoveLocations.size() == 0) return null;
 		if (hasFlag())
 			return avoid( possibleMoveLocations, getTeam().getFlag().getLocation() );
+		Flag theirFlag = this.getTeam().getOpposingTeam().getFlag();
 		return avoid( possibleMoveLocations, theirFlag.getLocation() );
 	}
 	
@@ -36,11 +26,12 @@ public class T850 extends AbstractPlayer {
 		for(Location test : scan) {
 			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
 				//test for attacker 'auras'
+				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
 				for(AbstractPlayer detect : theirPlayers) {
 					if(this.getGrid().get(test) == detect) {
 						scan.remove(test);
 					}
-					for(Actor a : myGrid.getNeighbors(test)) {
+					for(Actor a : this.getGrid().getNeighbors(test)) {
 						if(a == detect) {
 							scan.remove(test);
 						}
