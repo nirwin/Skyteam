@@ -23,7 +23,7 @@ public class Snowminator extends AbstractPlayer {
 	}
 	
 	public Location avoid(List<Location> scan, Location target) {
-		for(Location test : scan) {
+		/*for(Location test : scan) {
 			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
 				//test for attacker 'auras'
 				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
@@ -38,7 +38,7 @@ public class Snowminator extends AbstractPlayer {
 					}
 				}
 			}
-		}
+		}*/
 		//determine optimal direction
 		int minDir = 360;
 		Location best = scan.get(0);
