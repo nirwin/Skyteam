@@ -7,9 +7,9 @@ import org.pumatech.ctf.*;
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
-public class T850 extends AbstractPlayer {
+public class Snowminator extends AbstractPlayer {
 	
-	public T850(Location startLocation) {
+	public Snowminator(Location startLocation) {
 		super(startLocation);
 	}
 
