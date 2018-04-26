@@ -1,5 +1,5 @@
 package org.pumatech.teams.Skynet;
 
-public class skybug {
+public class Skynet {
 
 }
