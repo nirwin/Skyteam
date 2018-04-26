@@ -9,19 +9,18 @@ import info.gridworld.grid.Location;
 
 /* This is the main offensive player on Skynet's team. */
 
-public class Snowminator extends AbstractPlayer {
+public class Moto extends AbstractPlayer {
 	
-	public Snowminator(Location startLocation) {
+	public Moto(Location startLocation) {
 		super(startLocation);
 	}
 
 	public Location getMoveLocation() {
-		List<Location> possibleMoveLocations = getGrid().getEmptyAdjacentLocations(getLocation()); 
+		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation()); 
 		if (possibleMoveLocations.size() == 0) return null;
 		if (hasFlag())
 			return avoid( possibleMoveLocations, getTeam().getFlag().getLocation() );
-		Flag theirFlag = this.getTeam().getOpposingTeam().getFlag();
-		return avoid( possibleMoveLocations, theirFlag.getLocation() );
+		return avoid( possibleMoveLocations, this.getTeam().getOpposingTeam().getFlag().getLocation() );
 	}
 	
 	public Location avoid(List<Location> scan, Location target) {
