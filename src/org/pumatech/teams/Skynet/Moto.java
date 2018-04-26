@@ -40,6 +40,8 @@ public class Moto extends AbstractPlayer {
 				}
 			}
 		}*/
+		
+		// Current issue: ignores both target and returned value from avoid() and goes for (0,0)
 		//determine optimal direction
 		int minDir = 360;
 		Location best = scan.get(0);
@@ -48,8 +50,8 @@ public class Moto extends AbstractPlayer {
 			if(Math.abs(this.getLocation().getDirectionToward(target)-a) < minDir) {
 				if(getGrid().getEmptyAdjacentLocations(l).size() > 1) {
 					best = l;
-					minDir = a;
 				}
+				minDir = a;
 			}
 		}
 		return best;
