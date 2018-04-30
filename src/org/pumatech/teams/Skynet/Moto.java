@@ -17,9 +17,11 @@ public class Moto extends AbstractPlayer {
 
 	public Location getMoveLocation() {
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation()); 
-		if (possibleMoveLocations.size() == 0) return null;
-		if (hasFlag())
-			return avoid( possibleMoveLocations, getTeam().getFlag().getLocation() );
+		if (possibleMoveLocations.size() == 0) { return null; }
+		if (hasFlag()) {
+			return avoid( possibleMoveLocations, this.getTeam().getFlag().getLocation() );
+		}
+		//System.out.println(possibleMoveLocations);
 		return avoid( possibleMoveLocations, this.getTeam().getOpposingTeam().getFlag().getLocation() );
 	}
 	
