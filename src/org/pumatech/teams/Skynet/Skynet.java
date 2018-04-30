@@ -9,9 +9,13 @@ public class Skynet extends AbstractPlayer {
 	// attackers
 	public Skynet(Location startLocation) {
 		super(startLocation);
+		
+		
+		
 	}
 	
 	public Location getMoveLocation() {
+		
 		//processing and updating of target lists goes here
 		return this.getLocation();
 	}
