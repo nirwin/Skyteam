@@ -11,7 +11,13 @@ public class T850 extends AbstractPlayer {
 	public T850(Location startLocation) {
 		super(startLocation);
 	}
-	
+
+	public static Location target;
+
+	public void SetTarget(Location l) {
+		target = l;
+	}
+
 	public Location getMoveLocation() {
 		// choose target here
 		Location best = this.getLocation();

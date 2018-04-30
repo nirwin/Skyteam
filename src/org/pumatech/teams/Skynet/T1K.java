@@ -10,7 +10,13 @@ public class T1K extends AbstractPlayer {
 	public T1K(Location startLocation) {
 		super(startLocation);
 	}
-	
+
+	public static Location target;
+
+	public void SetTarget(Location l) {
+		target = l;
+	}
+
 	public Location getMoveLocation() {
 		// choose target here
 		Location best = this.getLocation();
