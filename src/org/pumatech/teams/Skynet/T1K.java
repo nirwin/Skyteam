@@ -4,7 +4,7 @@ import org.pumatech.ctf.AbstractPlayer;
 
 import info.gridworld.grid.Location;
 
-public class T1K extends AbstractPlayer {
+public class T1K extends SkynetSTC {
 	// Stays around the flag and moves to intercept opposing players within a square
 	// 8 tile proximity
 	public T1K(Location startLocation) {

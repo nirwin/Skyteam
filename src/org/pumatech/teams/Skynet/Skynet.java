@@ -1,13 +1,14 @@
 package org.pumatech.teams.Skynet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
 import info.gridworld.grid.Location;
 
-public class Skynet extends AbstractPlayer {
+public class Skynet extends SkynetSTC {
 	// Updates static variables of other players and defends the flag against
 	// attackers
 	public Skynet(Location startLocation) {
@@ -21,6 +22,7 @@ public class Skynet extends AbstractPlayer {
 		// wont move
 		// processing and updating of target lists goes here
 		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
+		
 		int flagc = getTeam().getFlag().getLocation().getCol();
 		int flagr = getTeam().getFlag().getLocation().getRow();
 		ArrayList<Integer> Closest = new ArrayList<Integer>();
@@ -33,12 +35,24 @@ public class Skynet extends AbstractPlayer {
 			int distance = (int) Math.sqrt(((flagc - x) * (flagc - x)) + ((flagr - y) * (flagr - y)));
 			Closest.add(i, distance);
 		}
+		int ClosestID = 0;
+		int ClosestD = 100;
+		// calculate closest player(s)
+		for (int i = 0; i < Closest.size(); i++) {
+			if (Closest.get(i) < ClosestD) {
+				ClosestID = i;
+				ClosestD = Closest.get(i);
+
+			}
+
+		}
 
 		// Choosing T1k targets
 		for (int i = 0; i < Closest.size(); i++) {
-			if (Closest.get(i) <= 8) {
+			if (Closest.get(ClosestID) <= 8 && this.getTeam().onSide(a.get(i).getLocation())) {
 				System.out.println("hi");
 				// send target to t1k's
+				
 				break;
 			} else {
 				// send each t1k to an opposite corner of flag by giving them an empty thing
