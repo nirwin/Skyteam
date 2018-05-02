@@ -12,11 +12,12 @@ import info.gridworld.grid.Location;
 
 public class Moto extends AbstractPlayer {
 	
-	private Location pastLocation;
+	//private Location pastLocation;
+	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public Moto(Location startLocation) {
 		super(startLocation);
-		pastLocation = this.getLocation();
+		//pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
@@ -31,8 +32,10 @@ public class Moto extends AbstractPlayer {
 	public Location avoid(List<Location> scan, Location target) {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		for(Location test : scan) {
-			if(test == pastLocation) {
-				temp.remove(test);
+			for(Location temmie : locationBlacklist) {
+				if(test == temmie/*pastLocation*/) {
+					temp.remove(test);
+				}
 			}
 			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
 				//test for attacker 'auras'
@@ -45,6 +48,11 @@ public class Moto extends AbstractPlayer {
 						if(a == detect) {
 							temp.remove(test);
 						}
+						/*if(detect.getMoveLocation() != null) {
+							for(Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
+								if(a == getGrid().get(tem)) { temp.remove(test); }
+							}
+						}*/
 					}
 				}
 			}
@@ -59,14 +67,16 @@ public class Moto extends AbstractPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if(Math.abs(t-a) < minDir) {
-				if(getGrid().getEmptyAdjacentLocations(l).size() > 1 && l != pastLocation) {
+				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
 					best = l;
-					pastLocation = this.getLocation();
+				}else {
+					locationBlacklist.add(l);
+					System.out.println("Blacklisted "+l);
 				}
 				minDir = Math.abs(t-a);
 			}
 		}
-		//System.out.println("Past Location: "+pastLocation+"Location I chose: "+best);
+		System.out.println("Blacklist: "+locationBlacklist);
 		return best;
 	}
 	
