@@ -1,7 +1,6 @@
 package org.pumatech.teams.Skynet;
 
 import java.util.List;
-import org.pumatech.ctf.AbstractPlayer;
 import info.gridworld.grid.Location;
 
 public class T850 extends SkynetSTC {

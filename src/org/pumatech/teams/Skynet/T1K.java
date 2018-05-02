@@ -1,7 +1,5 @@
 package org.pumatech.teams.Skynet;
 
-import org.pumatech.ctf.AbstractPlayer;
-
 import info.gridworld.grid.Location;
 
 public class T1K extends SkynetSTC {
