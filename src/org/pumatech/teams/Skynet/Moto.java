@@ -31,6 +31,9 @@ public class Moto extends AbstractPlayer {
 	public Location avoid(List<Location> scan, Location target) {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		for(Location test : scan) {
+			if(test == pastLocation) {
+				temp.remove(test);
+			}
 			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
 				//test for attacker 'auras'
 				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
