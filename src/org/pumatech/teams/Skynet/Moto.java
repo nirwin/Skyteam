@@ -12,8 +12,11 @@ import info.gridworld.grid.Location;
 
 public class Moto extends AbstractPlayer {
 	
+	private Location pastLocation;
+	
 	public Moto(Location startLocation) {
 		super(startLocation);
+		pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
@@ -22,7 +25,6 @@ public class Moto extends AbstractPlayer {
 		if (hasFlag()) {
 			return avoid( possibleMoveLocations, this.getTeam().getFlag().getLocation() );
 		}
-		//System.out.println(possibleMoveLocations);
 		return avoid( possibleMoveLocations, this.getTeam().getOpposingTeam().getFlag().getLocation() );
 	}
 	
@@ -46,7 +48,7 @@ public class Moto extends AbstractPlayer {
 		}
 		scan = temp;
 		
-		// Current issue: get last location and don't go back
+		// Current issue: it's ignoring my pastLocation check
 		//determine optimal direction
 		int minDir = 360;
 		Location best = scan.get(0);
@@ -54,12 +56,14 @@ public class Moto extends AbstractPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if(Math.abs(t-a) < minDir) {
-				if(getGrid().getEmptyAdjacentLocations(l).size() > 1) {
+				if(getGrid().getEmptyAdjacentLocations(l).size() > 1 && l != pastLocation) {
 					best = l;
+					pastLocation = this.getLocation();
 				}
 				minDir = Math.abs(t-a);
 			}
 		}
+		//System.out.println("Past Location: "+pastLocation+"Location I chose: "+best);
 		return best;
 	}
 	
