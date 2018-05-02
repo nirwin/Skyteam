@@ -15,6 +15,7 @@ public class Skynet extends SkynetSTC {
 	}
 
 	public Location getMoveLocation() {
+	
 		// first we need to check in an 8 grid radius of the flag- actually checking for
 		// returning first found target for t1ks to go to, otherwise they will not move
 		// then we check on our side, assigning closest one to T850 to chase, else t850
@@ -59,7 +60,7 @@ public class Skynet extends SkynetSTC {
 			T1kLoc = a.get(ClosestID).getLocation();
 		} else {
 			T1kLoc = null;
-			// send each t1k to an opposite corner of flag by giving them an empty thing
+			// send each t1k to an opposite corner of flag by giving them an empty variable
 		}
 
 		// choosing target for T850
@@ -70,7 +71,7 @@ public class Skynet extends SkynetSTC {
 		} else {
 			T1kLoc = null;
 
-			// send each t1k to an opposite corner of flag by giving them an empty thing
+			// send each t1k to an opposite corner of flag by giving them an empty variable
 		}
 
 		return this.getLocation();
