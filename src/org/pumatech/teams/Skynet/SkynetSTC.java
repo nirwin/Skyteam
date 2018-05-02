@@ -10,5 +10,9 @@ public abstract class SkynetSTC extends AbstractPlayer  {
 		super(startLocation);
 		// TODO Auto-generated constructor stub
 	}
+public static Location T1kLoc;
+public static Location T850Loc;
+
+
 
 }

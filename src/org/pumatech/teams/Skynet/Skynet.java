@@ -1,7 +1,6 @@
 package org.pumatech.teams.Skynet;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
@@ -21,8 +20,12 @@ public class Skynet extends SkynetSTC {
 		// then we check on our side, assigning closest one to T850 to chase, else t850
 		// wont move
 		// processing and updating of target lists goes here
-		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
 		
+		
+		//importing enemy players into ArrayList a
+		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
+
+		//putting length form flag into closest
 		int flagc = getTeam().getFlag().getLocation().getCol();
 		int flagr = getTeam().getFlag().getLocation().getRow();
 		ArrayList<Integer> Closest = new ArrayList<Integer>();
@@ -37,6 +40,7 @@ public class Skynet extends SkynetSTC {
 		}
 		int ClosestID = 0;
 		int ClosestD = 100;
+		
 		// calculate closest player(s)
 		for (int i = 0; i < Closest.size(); i++) {
 			if (Closest.get(i) < ClosestD) {
@@ -48,20 +52,25 @@ public class Skynet extends SkynetSTC {
 		}
 
 		// Choosing T1k targets
-		for (int i = 0; i < Closest.size(); i++) {
-			if (Closest.get(ClosestID) <= 8 && this.getTeam().onSide(a.get(i).getLocation())) {
-				System.out.println("hi");
-				// send target to t1k's
-				
-				break;
-			} else {
-				// send each t1k to an opposite corner of flag by giving them an empty thing
-			}
+
+		if (ClosestD <= 8 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
+			System.out.println("hi");
+			// send target to t1k's
+			T1kLoc = a.get(ClosestID).getLocation();
+		} else {
+			T1kLoc = null;
+			// send each t1k to an opposite corner of flag by giving them an empty thing
 		}
+
 		// choosing target for T850
 
-		for (int j = 0; j < Closest.size(); j++) {
+		if (ClosestD <= 24 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
+			T1kLoc = a.get(ClosestID).getLocation();
 
+		} else {
+			T1kLoc = null;
+
+			// send each t1k to an opposite corner of flag by giving them an empty thing
 		}
 
 		return this.getLocation();
