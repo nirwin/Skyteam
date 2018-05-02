@@ -12,12 +12,12 @@ import info.gridworld.grid.Location;
 
 public class Moto extends AbstractPlayer {
 	
-	//private Location pastLocation;
+	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public Moto(Location startLocation) {
 		super(startLocation);
-		//pastLocation = this.getLocation();
+		pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
@@ -45,7 +45,7 @@ public class Moto extends AbstractPlayer {
 						temp.remove(test);
 					}
 					for(Actor a : this.getGrid().getNeighbors(test)) {
-						if(a == detect) {
+						if(a.equals(detect)) {
 							temp.remove(test);
 						}
 						/*if(detect.getMoveLocation() != null) {
@@ -67,16 +67,30 @@ public class Moto extends AbstractPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if(Math.abs(t-a) < minDir) {
-				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
-					best = l;
+				//System.out.println("size: "+this.getGrid().getEmptyAdjacentLocations(l).size());
+				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1 && 
+					Math.abs(this.getLocation().getDirectionToward(l) - this.getLocation().
+					getDirectionToward(target)) <= 90) {
+					if(!locationBlacklist.contains(l)) {
+						best = l;
+					}
 				}else {
-					locationBlacklist.add(l);
-					System.out.println("Blacklisted "+l);
+					if(!locationBlacklist.contains(l)) {
+						locationBlacklist.add(l);
+					}
+					//System.out.println("Blacklisted "+l);
 				}
 				minDir = Math.abs(t-a);
 			}
+			if(l.equals(pastLocation)) {
+				if(!locationBlacklist.contains(l)) {
+					locationBlacklist.add(l);
+				}
+				//System.out.println("Blacklisted "+l);
+			}
 		}
-		System.out.println("Blacklist: "+locationBlacklist);
+		//System.out.println("Blacklist: "+locationBlacklist);
+		pastLocation = this.getLocation();
 		return best;
 	}
 	
