@@ -7,21 +7,34 @@ import org.pumatech.ctf.AbstractPlayer;
 
 import info.gridworld.grid.Location;
 
-public class Skynet extends SkynetSTC {
+public class Skynet extends AbstractPlayer {
 	// Updates static variables of other players and defends the flag against
 	// attackers
 	public Skynet(Location startLocation) {
 		super(startLocation);
 	}
 
+	public static Location T1kLoc;
+	public static Location T850Loc;
 	private int eo = 1;
 
-	public Location getMoveLocation() {
+	public static Location getT1kLoc() {
+		return T1kLoc;
+	}
 
-		// first we need to check in an 8 grid radius of the flag- actually checking for
-		// returning first found target for t1ks to go to, otherwise they will not move
-		// then we check on our side, assigning closest one to T850 to chase, else t850
-		// processing and updating of target lists goes here
+	public static void setT1kLoc(Location t1kLoc) {
+		T1kLoc = t1kLoc;
+	}
+
+	public static Location getT850Loc() {
+		return T850Loc;
+	}
+
+	public static void setT850Loc(Location t850Loc) {
+		T850Loc = t850Loc;
+	}
+
+	public Location getMoveLocation() {
 
 		// importing enemy players into ArrayList a
 		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
@@ -56,7 +69,6 @@ public class Skynet extends SkynetSTC {
 		// Choosing T1k targets
 
 		if (ClosestD <= 8 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
-			System.out.println("hi");
 			// send target to t1k's
 			T1kLoc = a.get(ClosestID).getLocation();
 		} else {

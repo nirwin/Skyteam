@@ -17,11 +17,11 @@ public class T850 extends AbstractPlayer {
 
 
 	public Location getMoveLocation() {
-//		if (T850Loc == null){
-//			return this.getLocation();	
-//			
-//		}
-//		else {
+		if (T850Loc == null){
+			return this.getLocation();	
+			
+		}
+		else {
 			return T850Loc;
 		
 		}
