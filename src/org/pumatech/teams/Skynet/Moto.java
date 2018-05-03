@@ -14,7 +14,7 @@ public class Moto extends AbstractPlayer {
 	
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
-	//static ArrayList<Integer> decayBlacklist = new ArrayList<Integer>();
+	static ArrayList<Integer> decayBlacklist = new ArrayList<Integer>();
 	
 	public Moto(Location startLocation) {
 		super(startLocation);
@@ -36,6 +36,11 @@ public class Moto extends AbstractPlayer {
 			}
 			decayBlacklist = temp;
 		}*/
+		if(decayBlacklist.size() > 8) {
+			for(int i=0; i<decayBlacklist.size()-8; i++) {
+				decayBlacklist.remove(decayBlacklist.size()-1);
+			}
+		}
 		if (hasFlag()) {
 			return avoid( possibleMoveLocations, this.getTeam().getFlag().getLocation() );
 		}
@@ -90,7 +95,7 @@ public class Moto extends AbstractPlayer {
 				}else {
 					if(!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
-						//decayBlacklist.add(5);
+						decayBlacklist.add(5);
 					}
 					//System.out.println("Blacklisted "+l);
 				}
@@ -98,7 +103,7 @@ public class Moto extends AbstractPlayer {
 			if(l.equals(pastLocation)) {
 				if(!locationBlacklist.contains(l)) {
 					locationBlacklist.add(l);
-					//decayBlacklist.add(5);
+					decayBlacklist.add(5);
 				}
 			}
 			}
