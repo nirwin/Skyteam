@@ -8,12 +8,13 @@ import org.pumatech.ctf.*;
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
-/* This is the main offensive player on Skynet's team. */
+/* This is Skynet's main offensive player. */
 
 public class Moto extends AbstractPlayer {
 	
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
+	//static ArrayList<Integer> decayBlacklist = new ArrayList<Integer>();
 	
 	public Moto(Location startLocation) {
 		super(startLocation);
@@ -23,6 +24,18 @@ public class Moto extends AbstractPlayer {
 	public Location getMoveLocation() {
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation()); 
 		if (possibleMoveLocations.size() == 0) { return null; }
+		/*if(!decayBlacklist.isEmpty() && !locationBlacklist.isEmpty()) {
+			ArrayList<Integer> temp = new ArrayList<Integer>(decayBlacklist);
+			for(int i=0; i<decayBlacklist.size(); i++) {
+				if((int)(decayBlacklist.get(i)) > 0) {
+					temp.set(i,new Integer(decayBlacklist.get(i)-1));
+				}else {
+					temp.remove(i);
+					i--;
+				}
+			}
+			decayBlacklist = temp;
+		}*/
 		if (hasFlag()) {
 			return avoid( possibleMoveLocations, this.getTeam().getFlag().getLocation() );
 		}
@@ -44,7 +57,7 @@ public class Moto extends AbstractPlayer {
 					if(this.getGrid().get(test) == detect) {
 						temp.remove(test);
 					}
-					for(Actor a : this.getGrid().getNeighbors(test)) {
+					for(Actor a : this.getGrid().getNeighbors(detect.getLocation())) {
 						if(a.equals(detect)) {
 							temp.remove(test);
 						}
@@ -77,16 +90,17 @@ public class Moto extends AbstractPlayer {
 				}else {
 					if(!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
+						//decayBlacklist.add(5);
 					}
 					//System.out.println("Blacklisted "+l);
 				}
-				minDir = Math.abs(t-a);
-			}
+			minDir = Math.abs(t-a);
 			if(l.equals(pastLocation)) {
 				if(!locationBlacklist.contains(l)) {
 					locationBlacklist.add(l);
+					//decayBlacklist.add(5);
 				}
-				//System.out.println("Blacklisted "+l);
+			}
 			}
 		}
 		//System.out.println("Blacklist: "+locationBlacklist);
