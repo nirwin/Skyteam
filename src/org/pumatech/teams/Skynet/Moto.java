@@ -36,8 +36,8 @@ public class Moto extends AbstractPlayer {
 			}
 			decayBlacklist = temp;
 		}*/
-		if(decayBlacklist.size() > 8) {
-			for(int i=0; i<decayBlacklist.size()-8; i++) {
+		if(decayBlacklist.size() > 4) {
+			for(int i=0; i<decayBlacklist.size()-4; i++) {
 				decayBlacklist.remove(decayBlacklist.size()-1);
 			}
 		}
@@ -66,11 +66,12 @@ public class Moto extends AbstractPlayer {
 						if(a.equals(detect)) {
 							temp.remove(test);
 						}
-						/*if(detect.getMoveLocation() != null) {
+						//System.out.println(detect);
+						if(detect.getMoveLocation() != null) {
 							for(Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
 								if(a == getGrid().get(tem)) { temp.remove(test); }
 							}
-						}*/
+						}
 					}
 				}
 			}
