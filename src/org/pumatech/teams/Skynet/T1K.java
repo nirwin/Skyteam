@@ -9,11 +9,7 @@ public class T1K extends SkynetSTC {
 		super(startLocation);
 	}
 
-	public static Location target;
 
-	public void SetTarget(Location l) {
-		target = l;
-	}
 
 	public Location getMoveLocation() {
 		// choose target here
