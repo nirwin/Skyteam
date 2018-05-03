@@ -21,7 +21,6 @@ public class Skynet extends SkynetSTC {
 		// first we need to check in an 8 grid radius of the flag- actually checking for
 		// returning first found target for t1ks to go to, otherwise they will not move
 		// then we check on our side, assigning closest one to T850 to chase, else t850
-		// wont move
 		// processing and updating of target lists goes here
 
 		// importing enemy players into ArrayList a
