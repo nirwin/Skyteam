@@ -1,21 +1,23 @@
 package org.pumatech.teams.Skynet;
 
+import org.pumatech.ctf.AbstractPlayer;
+
 import info.gridworld.grid.Location;
 
-public class T1K extends SkynetSTC {
+public class T1K extends AbstractPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 
 	public T1K(Location startLocation) {
 		super(startLocation);
 	}
 
-int loc = 1;
+
 
 	public Location getMoveLocation() {
-		//pulling the 
-		if (T1kLoc != null){
-			loc++;
-			return T1kLoc;
+		//pulling the location from skynet 
+		if (T850Loc != null){
+			
+			return T850Loc;
 		}
 		else {
 		return this.getLocation();	

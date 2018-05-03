@@ -10,22 +10,23 @@ public class T850 extends AbstractPlayer {
 	// Since there is only going to be one, can we name him Arnold?�
 	// processes a list of targets and moves to intercept, then returns
 	// to the flag if there are no more targets given to it by Skynet
+
 	public T850(Location startLocation) {
 		super(startLocation);
-		this.setTarget(null);
 	}
 
-	public T850(Location startLocation, Location target) {
-		super(startLocation);
-		this.setTarget(target);
+
+	public Location getMoveLocation() {
+		if (T850Loc == null){
+			return this.getLocation();	
+			
+		}
+		else {
+			return T850Loc;
+		
+		}
 	}
 
-	private Location pastLocation;
-	public static Location target;
-
-	public void setTarget(Location l) {
-		target = l;
-	}
 
 	@Override
 	public Location getMoveLocation() {
@@ -35,4 +36,4 @@ public class T850 extends AbstractPlayer {
 
 	
 
-}
+
