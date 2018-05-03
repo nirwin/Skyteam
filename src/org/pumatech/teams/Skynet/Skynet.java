@@ -38,6 +38,7 @@ public class Skynet extends SkynetSTC {
 			int y = a.get(i).getLocation().getRow();
 			int distance = (int) Math.sqrt(((flagc - x) * (flagc - x)) + ((flagr - y) * (flagr - y)));
 			Closest.add(i, distance);
+
 		}
 		int ClosestID = 0;
 		int ClosestD = 100;

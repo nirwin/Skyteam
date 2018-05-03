@@ -9,13 +9,13 @@ public class T1K extends SkynetSTC {
 		super(startLocation);
 	}
 
-int loc = 1;
+
 
 	public Location getMoveLocation() {
-		//pulling the 
-		if (T1kLoc != null){
-			loc++;
-			return T1kLoc;
+		//pulling the location from skynet 
+		if (T850Loc != null){
+			
+			return T850Loc;
 		}
 		else {
 		return this.getLocation();	
