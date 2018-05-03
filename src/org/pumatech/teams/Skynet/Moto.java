@@ -66,10 +66,11 @@ public class Moto extends AbstractPlayer {
 						if(a.equals(detect)) {
 							temp.remove(test);
 						}
-						//System.out.println(detect);
-						if(detect.getMoveLocation() != null) {
+						if(!(detect.getTeam() instanceof SkynetTeam)) {
+							if(detect.getMoveLocation() != null) {
 							for(Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
 								if(a == getGrid().get(tem)) { temp.remove(test); }
+							}
 							}
 						}
 					}
