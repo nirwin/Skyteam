@@ -7,32 +7,13 @@ import org.pumatech.ctf.AbstractPlayer;
 
 import info.gridworld.grid.Location;
 
-public class Skynet extends AbstractPlayer {
+public class Skynet extends STC {
 	// Updates static variables of other players and defends the flag against
 	// attackers
 	public Skynet(Location startLocation) {
 		super(startLocation);
 	}
 
-	public static Location T1kLoc;
-	public static Location T850Loc;
-	private int eo = 1;
-
-	public static Location getT1kLoc() {
-		return T1kLoc;
-	}
-
-	public static void setT1kLoc(Location t1kLoc) {
-		T1kLoc = t1kLoc;
-	}
-
-	public static Location getT850Loc() {
-		return T850Loc;
-	}
-
-	public static void setT850Loc(Location t850Loc) {
-		T850Loc = t850Loc;
-	}
 
 	public Location getMoveLocation() {
 
@@ -70,22 +51,23 @@ public class Skynet extends AbstractPlayer {
 
 		if (ClosestD <= 8 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
 			// send target to t1k's
-			T1kLoc = a.get(ClosestID).getLocation();
+			loc1 = a.get(ClosestID).getLocation();
 		} else {
-			T1kLoc = null;
+			loc1 = null;
 			// send each t1k to an opposite corner of flag by giving them an empty variable
 		}
 
 		// choosing target for T850
 
 		if (ClosestD <= 24 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
-			T1kLoc = a.get(ClosestID).getLocation();
+			loc2 = a.get(ClosestID).getLocation();
 
 		} else {
-			T1kLoc = null;
+			loc2 = null;
 
 			// send each t1k to an opposite corner of flag by giving them an empty variable
 		}
+		int eo=0;
 		Location a1 = new Location(0, 0);
 		Location a2 = new Location(50, 100);
 		if (eo % 2 <= 0) {
