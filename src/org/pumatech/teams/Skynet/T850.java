@@ -10,7 +10,9 @@ public class T850 extends STC {
 
 	// processes a list of targets and moves to intercept, then returns
 	// to the flag if there are no more targets given to it by Skynet
-
+	
+	private Location T850Loc;
+	
 	public T850(Location startLocation) {
 		super(startLocation);
 	}
@@ -24,5 +26,5 @@ public class T850 extends STC {
 
 		}
 	}
-
 }
+
