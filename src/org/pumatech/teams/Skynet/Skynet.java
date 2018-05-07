@@ -52,6 +52,7 @@ public class Skynet extends STC {
 		if (ClosestD <= 8 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
 			// send target to t1k's
 			loc1 = a.get(ClosestID).getLocation();
+			System.out.println("sent");
 		} else {
 			loc1 = null;
 			// send each t1k to an opposite corner of flag by giving them an empty variable
@@ -61,7 +62,7 @@ public class Skynet extends STC {
 
 		if (ClosestD <= 24 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
 			loc2 = a.get(ClosestID).getLocation();
-
+			System.out.println("sent");
 		} else {
 			loc2 = null;
 
