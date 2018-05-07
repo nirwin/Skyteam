@@ -58,10 +58,8 @@ public abstract class AbstractPlayer extends Actor {
 					@Override
 					public void run() {
 						Location l = getMoveLocation();
-						if(l == null) { l = getLocation(); }
 						loc.setCol(l.getCol());
 						loc.setRow(l.getRow());
-						
 					}
 				};
 				getMoveLocationThread.start();
