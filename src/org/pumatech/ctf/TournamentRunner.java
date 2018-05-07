@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.pumatech.teams.Skynet.SkynetTeam;
-import org.pumatech.teams.sample.SampleTeam;
+//import org.pumatech.teams.sample.SampleTeam;
 
 public class TournamentRunner {
 
@@ -15,11 +15,11 @@ public class TournamentRunner {
 		List<Team> teams = new ArrayList<Team>();
 		teams.add(new SkynetTeam(Color.RED));
 		teams.add(new SkynetTeam(Color.BLUE));
-		teams.add(new SkynetTeam(Color.YELLOW));
+		teams.add(new SkynetTeam(/*Color.YELLOW*/));
 		teams.add(new SkynetTeam(Color.WHITE));
 		
 		Bracket bracket = new Bracket(teams);
-		JFrame bracketViewer = new JFrame("Capture The Flag 2017 Bracket");
+		JFrame bracketViewer = new JFrame("Capture The Flag 2018 Bracket");
 		bracketViewer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		bracketViewer.setResizable(false);
 		bracketViewer.add(bracket);
