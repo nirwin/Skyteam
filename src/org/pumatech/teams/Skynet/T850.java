@@ -3,9 +3,11 @@ package org.pumatech.teams.Skynet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.pumatech.ctf.AbstractPlayer;
+
 import info.gridworld.grid.Location;
 
-public class T850 extends STC {
+public class T850 extends AbstractPlayer {
 
 	// processes a list of targets and moves to intercept, then returns
 	// to the flag if there are no more targets given to it by Skynet
@@ -44,6 +46,10 @@ public class T850 extends STC {
 			return loc1;
 
 		}*/
+	}
+	
+	public void setTarget(Location targ) {
+		targets.add(targ);
 	}
 }
 
