@@ -50,7 +50,7 @@ public class Moto extends AbstractPlayer {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		for(Location test : scan) {
 			for(Location temmie : locationBlacklist) {
-				if(test == temmie/*pastLocation*/) {
+				if(test == temmie) {
 					temp.remove(test);
 				}
 			}
@@ -78,7 +78,6 @@ public class Moto extends AbstractPlayer {
 		}
 		scan = temp;
 		
-		// Current issue: it's ignoring my pastLocation check
 		//determine optimal direction
 		int minDir = 360;
 		Location best = scan.get(0);
@@ -86,7 +85,6 @@ public class Moto extends AbstractPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if(Math.abs(t-a) < minDir) {
-				//System.out.println("size: "+this.getGrid().getEmptyAdjacentLocations(l).size());
 				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1 && 
 					Math.abs(this.getLocation().getDirectionToward(l) - this.getLocation().
 					getDirectionToward(target)) <= 90) {
@@ -97,7 +95,6 @@ public class Moto extends AbstractPlayer {
 					if(!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
 					}
-					//System.out.println("Blacklisted "+l);
 				}
 			minDir = Math.abs(t-a);
 			if(l.equals(pastLocation)) {
@@ -107,7 +104,6 @@ public class Moto extends AbstractPlayer {
 			}
 			}
 		}
-		//System.out.println("Blacklist: "+locationBlacklist);
 		pastLocation = this.getLocation();
 		return best;
 	}

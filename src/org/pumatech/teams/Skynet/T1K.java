@@ -2,38 +2,121 @@ package org.pumatech.teams.Skynet;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
+import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
 public class T1K extends AbstractPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 	
 	private ArrayList<Location> targets = new ArrayList<Location>();
+	private Location post = this.getLocation();
+	private Location pastLocation;
+	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public T1K(Location startLocation) {
 		super(startLocation);
+		pastLocation = this.getLocation();
 	}
-
-
 
 	public Location getMoveLocation() {
-		//pulling the location from skynet 
-		System.out.println("t1k");
-		//if (loc2!= null){
-			System.out.println("loc 2 sent");
-			//return loc2;
-		//}
-		//else {
-			System.err.println("null for loc 2");
-		return this.getLocation();	
-		//}
-		
-	
+		// eliminate targets not on side
+		ArrayList<Location> temp = new ArrayList<Location>(targets);
+		for (Location enemy : targets) {
+			if (!this.getTeam().onSide(enemy)) {
+				temp.remove(enemy);
+			}
+		}
+		targets = temp;
+
+		// path finding
+		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation());
+		if (possibleMoveLocations.size() == 0) {
+			return null;
+		}
+		if (locationBlacklist.size() > 8) {
+			for (int i = 0; i < locationBlacklist.size() - 4; i++) {
+				locationBlacklist.remove(locationBlacklist.size() - 1);
+			}
+		}
+		if (targets.size() > 0) {
+			return avoid(possibleMoveLocations, targets.get(0));
+		} else {
+			return avoid(possibleMoveLocations, post);
+		}
 	}
 	
-	public void setTarget(Location targ) {
+	public void addTarget(Location targ) {
 		targets.add(targ);
+	}
+	
+	public void setPost(Location def) {
+		post = def;
+	}
+	
+	public Location avoid(List<Location> scan, Location target) {
+		if(target == null) { return this.getLocation(); }
+		ArrayList<Location> temp = new ArrayList<Location>(scan);
+		for(Location test : scan) {
+			for(Location temmie : locationBlacklist) {
+				if(test == temmie) {
+					temp.remove(test);
+				}
+			}
+			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
+				//test for attacker 'auras'
+				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
+				for(AbstractPlayer detect : theirPlayers) {
+					if(this.getGrid().get(test) == detect) {
+						temp.remove(test);
+					}
+					for(Actor a : this.getGrid().getNeighbors(detect.getLocation())) {
+						if(a.equals(detect)) {
+							temp.remove(test);
+						}
+						if(!(detect.getTeam() instanceof SkynetTeam)) {
+							if(detect.getMoveLocation() != null) {
+							for(Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
+								if(a == getGrid().get(tem)) { temp.remove(test); }
+							}
+							}
+						}
+					}
+				}
+			}
+		}
+		scan = temp;
+		
+		//determine optimal direction
+		int minDir = 360;
+		Location best = scan.get(0);
+		for(Location l : scan) {
+			int a = this.getLocation().getDirectionToward(l);
+			int t = this.getLocation().getDirectionToward(target);
+			if(Math.abs(t-a) < minDir) {
+				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1 && 
+					Math.abs(this.getLocation().getDirectionToward(l) - this.getLocation().
+					getDirectionToward(target)) <= 90) {
+					if(!locationBlacklist.contains(l)) {
+						best = l;
+					}
+				}else {
+					if(!locationBlacklist.contains(l)) {
+						locationBlacklist.add(l);
+					}
+				}
+			minDir = Math.abs(t-a);
+			if(l.equals(pastLocation)) {
+				if(!locationBlacklist.contains(l)) {
+					locationBlacklist.add(l);
+				}
+			}
+			}
+		}
+		pastLocation = this.getLocation();
+		return best;
 	}
 }

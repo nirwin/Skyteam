@@ -1,6 +1,7 @@
 package org.pumatech.teams.Skynet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
@@ -12,60 +13,92 @@ public abstract class SkynetDupe extends AbstractPlayer {
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 	}
-		// Updates static variables of other players and defends the flag against
-		// attackers
+	// Updates static variables of other players and defends the flag against
+	// attackers
 
-		public Location getMoveLocation() {
+	public Location getMoveLocation() {
 
-			// importing enemy players into ArrayList a
-			List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
-			List<AbstractPlayer> b = this.getTeam().getPlayers();
-			AbstractPlayer sample = null;
-			AbstractPlayer sample2 = null;
-			AbstractPlayer sample3 = null;
-			for (AbstractPlayer p : b) {
-				if (p instanceof T1K) {
-					if (sample != null) {
-						sample2 = p;
-					} else {
-						sample = p;
-					}
-					if (p instanceof T850) {
-						sample3 = p;
-					}
+		// getting the indices of defensive players
+		List<AbstractPlayer> b = this.getTeam().getPlayers();
+		AbstractPlayer T1K1 = null;
+		AbstractPlayer T1K2 = null;
+		AbstractPlayer Arnold = null;
+		for (AbstractPlayer p : b) {
+			if (p instanceof T1K) {
+				if (T1K1 != null) {
+					T1K2 = p;
+				} else {
+					T1K1 = p;
+				}
+				if (p instanceof T850) {
+					Arnold = p;
 				}
 			}
-
-			// putting length from flag into closest
-			int flagc = getTeam().getFlag().getLocation().getCol();
-			int flagr = getTeam().getFlag().getLocation().getRow();
-			ArrayList<Integer> Closest = new ArrayList<Integer>();
-
-			// creating a array of the distance of enemy players to flags
-
-			// calculate closest player(s)
-			
-			// Choosing T1k targets
-
-			// choosing target for T850
-
-			if (ClosestD <= 24 && this.getTeam().onSide(a.get(ClosestID).getLocation()) == true) {
-				//loc2 = a.get(ClosestID).getLocation();
-				//System.out.println("sent");
-			} else {
-				//loc2 = null;
-
-				// send each t1k to an opposite corner of flag by giving them an empty variable
-			}
-			int eo = 0;
-			Location a1 = new Location(0, 0);
-			Location a2 = new Location(50, 100);
-			if (eo % 2 <= 0) {
-				eo++;
-				return a1;
-			} else {
-				eo++;
-			}
-			return a2;
 		}
+
+		// importing enemy players into ArrayList a
+		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
+
+		// creating a array of distances from enemy players to flag
+		// (and removing players not on our side)
+		ArrayList<Integer> distances = new ArrayList<Integer>();
+		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>();
+		int flagc = this.getTeam().getFlag().getLocation().getCol();
+		int flagr = this.getTeam().getFlag().getLocation().getRow();
+		for (AbstractPlayer enemy : a) {
+			if (this.getTeam().onSide(enemy.getLocation())) {
+				int tem = (int) Math.sqrt(Math.pow(Math.abs(enemy.getLocation().getCol() - flagc), 2)
+						+ Math.pow(Math.abs(enemy.getLocation().getRow() - flagr), 2));
+				distances.add(tem);
+			} else {
+				temp.remove(enemy);
+			}
+		}
+		a = temp;
+
+		// sort target list by distance (in ascending order)
+		Collections.sort(distances);
+
+		for (int i = 0; i < distances.size(); i++) {
+			// Give T850 targets outside of 24 units from flag
+			if (distances.get(i) > 24) {
+				((T850) Arnold).addTarget(a.get(i).getLocation());
+				distances.remove(i);
+			}
+			// Give T1Ks targets within 24 units from flag according to proximity
+			else {
+				int d1 = (int) Math
+						.sqrt(Math.pow(Math.abs(a.get(i).getLocation().getCol() - T1K1.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K1.getLocation().getCol()), 2));
+				int d2 = (int) Math
+						.sqrt(Math.pow(Math.abs(a.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
+				if (d1 <= d2) {
+					((T1K) T1K1).addTarget(a.get(i).getLocation());
+					distances.remove(i);
+				} else {
+					((T1K) T1K2).addTarget(a.get(i).getLocation());
+					distances.remove(i);
+				}
+			}
+		}
+
+		// Give each T1K a 'patrol post' on an opposite corner of flag for if they don't
+		// have targets
+		((T1K)T1K1).setPost(new Location(this.getLocation().getRow()-1, this.getLocation().getCol()));
+		((T1K)T1K2).setPost(new Location(this.getLocation().getRow()+1, this.getLocation().getCol()));
+		((T850)Arnold).setPost(new Location(this.getLocation().getRow()-2, this.getLocation().getCol()));
+
+		// Move back and forth to get more points in case it comes down to that
+		int eo = 0;
+		Location a1 = new Location(0, 0);
+		Location a2 = new Location(50, 100);
+		if (eo % 2 <= 0) {
+			eo++;
+			return a1;
+		} else {
+			eo++;
+		}
+		return a2;
+	}
 }
