@@ -20,17 +20,13 @@ public class Skynet extends AbstractPlayer{
 		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
 		List<AbstractPlayer> b = this.getTeam().getPlayers();
 		AbstractPlayer sample = null;
-		AbstractPlayer sample2 = null;
-		AbstractPlayer sample3 = null;
 		for (AbstractPlayer p : b) {
 			if (p instanceof T1K) {
 				if (sample != null) {
-					sample2 = p;
 				} else {
 					sample = p;
 				}
 				if (p instanceof T850) {
-					sample3 = p;
 				}
 			}
 		}

@@ -8,7 +8,7 @@ import org.pumatech.ctf.AbstractPlayer;
 
 import info.gridworld.grid.Location;
 
-public abstract class SkynetDupe extends AbstractPlayer {
+public class SkynetDupe extends AbstractPlayer {
 
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
