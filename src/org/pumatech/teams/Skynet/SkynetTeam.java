@@ -7,7 +7,11 @@ import info.gridworld.grid.Location;
 
 public class SkynetTeam extends Team{
 	public SkynetTeam() {
-		this(Color.DARK_GRAY);
+		this("Skynet", Color.DARK_GRAY);
+	}
+	
+	public SkynetTeam(String name) {
+		this(name, Color.DARK_GRAY);
 	}
 	
 	public SkynetTeam(Color color) {
