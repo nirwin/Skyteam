@@ -13,13 +13,13 @@ public class T1K extends AbstractPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 	
 	private ArrayList<Location> targets = new ArrayList<Location>();
-	private Location post = this.getLocation();
+	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public T1K(Location startLocation) {
 		super(startLocation);
-		pastLocation = this.getLocation();
+		//pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {

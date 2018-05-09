@@ -14,7 +14,7 @@ public class T850 extends AbstractPlayer {
 	// to the flag if there are no more targets given to it by Skynet
 
 	private ArrayList<Location> targets = new ArrayList<Location>();
-	private Location post = this.getLocation();
+	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
