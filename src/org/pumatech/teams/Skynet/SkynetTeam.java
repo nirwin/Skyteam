@@ -23,7 +23,7 @@ public class SkynetTeam extends Team{
 		addPlayer(new Moto(new Location(5, 30)));
 		addPlayer(new Moto(new Location(10, 30)));
 		addPlayer(new T1K(new Location(15, 30)));
-		addPlayer(new Skynet(new Location(20, 30)));
+		addPlayer(new SkynetDupe(new Location(20, 30)));
 		addPlayer(new T850(new Location(30, 30)));
 		addPlayer(new T1K(new Location(35, 30)));
 		addPlayer(new Moto(new Location(40, 30)));
