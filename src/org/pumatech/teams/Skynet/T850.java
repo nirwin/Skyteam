@@ -14,7 +14,7 @@ public class T850 extends AbstractPlayer {
 	// to the flag if there are no more targets given to it by Skynet
 
 	private ArrayList<Location> targets = new ArrayList<Location>();
-	private Location post = this.getLocation();
+	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
@@ -43,6 +43,7 @@ public class T850 extends AbstractPlayer {
 			}
 		}
 		if (targets.size() > 0) {
+			System.out.println("T850 Targets:"+targets);
 			return avoid(possibleMoveLocations, targets.get(0));
 		} else {
 			return avoid(possibleMoveLocations, post);
@@ -64,29 +65,6 @@ public class T850 extends AbstractPlayer {
 			for (Location temmie : locationBlacklist) {
 				if (test == temmie) {
 					temp.remove(test);
-				}
-			}
-			if (test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
-				// test for attacker 'auras'
-				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
-				for (AbstractPlayer detect : theirPlayers) {
-					if (this.getGrid().get(test) == detect) {
-						temp.remove(test);
-					}
-					for (Actor a : this.getGrid().getNeighbors(detect.getLocation())) {
-						if (a.equals(detect)) {
-							temp.remove(test);
-						}
-						if (!(detect.getTeam() instanceof SkynetTeam)) {
-							if (detect.getMoveLocation() != null) {
-								for (Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
-									if (a == getGrid().get(tem)) {
-										temp.remove(test);
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}

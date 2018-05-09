@@ -13,13 +13,13 @@ public class T1K extends AbstractPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 	
 	private ArrayList<Location> targets = new ArrayList<Location>();
-	private Location post = this.getLocation();
+	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public T1K(Location startLocation) {
 		super(startLocation);
-		pastLocation = this.getLocation();
+		//pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
@@ -64,27 +64,6 @@ public class T1K extends AbstractPlayer {
 			for(Location temmie : locationBlacklist) {
 				if(test == temmie) {
 					temp.remove(test);
-				}
-			}
-			if(test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
-				//test for attacker 'auras'
-				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
-				for(AbstractPlayer detect : theirPlayers) {
-					if(this.getGrid().get(test) == detect) {
-						temp.remove(test);
-					}
-					for(Actor a : this.getGrid().getNeighbors(detect.getLocation())) {
-						if(a.equals(detect)) {
-							temp.remove(test);
-						}
-						if(!(detect.getTeam() instanceof SkynetTeam)) {
-							if(detect.getMoveLocation() != null) {
-							for(Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
-								if(a == getGrid().get(tem)) { temp.remove(test); }
-							}
-							}
-						}
-					}
 				}
 			}
 		}

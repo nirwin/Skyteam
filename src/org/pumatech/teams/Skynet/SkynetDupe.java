@@ -38,10 +38,11 @@ public class SkynetDupe extends AbstractPlayer {
 
 		// importing enemy players into ArrayList a
 		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
-
+		
 		// creating a array of distances from enemy players to flag
 		// (and removing players not on our side)
 		ArrayList<Integer> distances = new ArrayList<Integer>();
+		
 		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>();
 		int flagc = this.getTeam().getFlag().getLocation().getCol();
 		int flagr = this.getTeam().getFlag().getLocation().getRow();
@@ -55,6 +56,9 @@ public class SkynetDupe extends AbstractPlayer {
 			}
 		}
 		a = temp;
+		if(a.size() <= 0) {
+			return this.getLocation();
+		}
 
 		// sort target list by distance (in ascending order)
 		Collections.sort(distances);

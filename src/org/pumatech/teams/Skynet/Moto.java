@@ -17,7 +17,7 @@ public class Moto extends AbstractPlayer {
 	
 	public Moto(Location startLocation) {
 		super(startLocation);
-		pastLocation = this.getLocation();
+		//pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
