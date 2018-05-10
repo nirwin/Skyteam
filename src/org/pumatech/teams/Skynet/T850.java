@@ -34,7 +34,7 @@ public class T850 extends AbstractPlayer {
 
 		// path finding
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation());
-		if (possibleMoveLocations.size() == 0) {
+		if (possibleMoveLocations.size() <= 0) {
 			return null;
 		}
 		if (locationBlacklist.size() > 8) {

@@ -30,9 +30,9 @@ public class SkynetDupe extends AbstractPlayer {
 				} else {
 					T1K1 = p;
 				}
-				if (p instanceof T850) {
-					Arnold = p;
-				}
+			}
+			if (p instanceof T850) {
+				Arnold = p;
 			}
 		}
 
@@ -59,7 +59,7 @@ public class SkynetDupe extends AbstractPlayer {
 		if(a.size() <= 0) {
 			return this.getLocation();
 		}
-
+		
 		// sort target list by distance (in ascending order)
 		Collections.sort(distances);
 
@@ -67,6 +67,7 @@ public class SkynetDupe extends AbstractPlayer {
 			// Give T850 targets outside of 24 units from flag
 			if (distances.get(i) > 24) {
 				((T850) Arnold).addTarget(a.get(i).getLocation());
+				System.out.println("Sent "+a.get(i).getLocation()+"To T850");
 				distances.remove(i);
 			}
 			// Give T1Ks targets within 24 units from flag according to proximity
@@ -79,9 +80,11 @@ public class SkynetDupe extends AbstractPlayer {
 								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
 				if (d1 <= d2) {
 					((T1K) T1K1).addTarget(a.get(i).getLocation());
+					System.out.println("Sent "+a.get(i).getLocation()+"To T1K 1");
 					distances.remove(i);
 				} else {
 					((T1K) T1K2).addTarget(a.get(i).getLocation());
+					System.out.println("Sent "+a.get(i).getLocation()+"To T1K 2");
 					distances.remove(i);
 				}
 			}
