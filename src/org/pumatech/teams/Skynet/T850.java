@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
-import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
-public class T850 extends AbstractPlayer {
+public class T850 extends MovingPlayer {
 
 	// processes a list of targets and moves to intercept, then returns
 	// to the flag if there are no more targets given to it by Skynet
@@ -16,10 +15,11 @@ public class T850 extends AbstractPlayer {
 	private ArrayList<AbstractPlayer> targets = new ArrayList<AbstractPlayer>();
 	private Location post;
 	private Location pastLocation;
-	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
+	//static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
 	public T850(Location startLocation) {
 		super(startLocation);
+		//pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
@@ -37,11 +37,11 @@ public class T850 extends AbstractPlayer {
 		if (possibleMoveLocations.size() <= 0) {
 			return null;
 		}
-		if (locationBlacklist.size() > 8) {
-			for (int i = 0; i < locationBlacklist.size() - 8; i++) {
+		/*if (locationBlacklist.size() > blacklistSize) {
+			for (int i = 0; i < locationBlacklist.size() - blacklistSize; i++) {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
-		}
+		}*/
 		if (targets.size() > 0) {
 			//System.out.println("T850 Targets:"+targets);
 			return avoid(possibleMoveLocations, targets.get(0).getLocation());
@@ -83,7 +83,7 @@ public class T850 extends AbstractPlayer {
 				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1
 						&& Math.abs(this.getLocation().getDirectionToward(l)
 								- this.getLocation().getDirectionToward(target)) <= 90) {
-					if (!locationBlacklist.contains(l)) {
+					if (!locationBlacklist.contains(l)  && !l.equals(pastLocation)) {
 						best = l;
 					}
 				} else {
