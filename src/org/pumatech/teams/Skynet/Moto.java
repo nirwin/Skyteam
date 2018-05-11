@@ -23,19 +23,7 @@ public class Moto extends AbstractPlayer {
 	public Location getMoveLocation() {
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation()); 
 		if (possibleMoveLocations.size() == 0) { return null; }
-		/*if(!decayBlacklist.isEmpty() && !locationBlacklist.isEmpty()) {
-			ArrayList<Integer> temp = new ArrayList<Integer>(decayBlacklist);
-			for(int i=0; i<decayBlacklist.size(); i++) {
-				if((int)(decayBlacklist.get(i)) > 0) {
-					temp.set(i,new Integer(decayBlacklist.get(i)-1));
-				}else {
-					temp.remove(i);
-					i--;
-				}
-			}
-			decayBlacklist = temp;
-		}*/
-		if(locationBlacklist.size() > 8) {
+		if(locationBlacklist.size() > 4) {
 			for(int i=0; i<locationBlacklist.size()-4; i++) {
 				locationBlacklist.remove(locationBlacklist.size()-1);
 			}
