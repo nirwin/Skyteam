@@ -45,8 +45,11 @@ public class T850 extends AbstractPlayer {
 		if (targets.size() > 0) {
 			//System.out.println("T850 Targets:"+targets);
 			return avoid(possibleMoveLocations, targets.get(0).getLocation());
-		} else {
+		} else if(post != null){
+			//System.out.println(this+" returning to post "+post);
 			return avoid(possibleMoveLocations, post);
+		} else {
+			return this.getLocation();
 		}
 	}
 

@@ -10,38 +10,43 @@ import info.gridworld.grid.Location;
 
 public class SkynetDupe extends AbstractPlayer {
 
-	private int[] T850Post = new int[2];
-	private int[] T1K1Post = new int[2];
-	private int[] T1K2Post = new int[2];
+	private boolean doOnceToggle = false;
+	private Location T850Post = new Location(0,0);
+	private Location T1K1Post = new Location(0,0);
+	private Location T1K2Post = new Location(0,0);
 
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
-		// set defense posts
-		if (this.getTeam().getSide() == 0) {
-			T850Post[0] = this.getTeam().getFlag().getLocation().getCol() + 3;
-			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
-
-			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol() + 3;
-			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow() + 3;
-
-			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol() + 3;
-			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow() - 3;
-		} else if (this.getTeam().getSide() == 0) {
-			T850Post[0] = this.getTeam().getFlag().getLocation().getCol() - 3;
-			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
-
-			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol() - 3;
-			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow() + 3;
-
-			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol() - 3;
-			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow() - 3;
-		}
 	}
 	// Updates static variables of other players and defends the flag against
 	// attackers
 
 	public Location getMoveLocation() {
 
+		if(doOnceToggle == false) {
+			doOnceToggle = true;
+			// set defense posts
+			if (this.getTeam().getSide() == 0) {
+				T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
+
+				T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
+
+				T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
+			} else if (this.getTeam().getSide() == 1) {
+				T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
+
+				T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
+
+				T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
+			}
+		}
+		
 		// getting the indices of defensive players
 		List<AbstractPlayer> b = this.getTeam().getPlayers();
 		AbstractPlayer T1K1 = null;
@@ -119,9 +124,9 @@ public class SkynetDupe extends AbstractPlayer {
 		}
 
 		// Give defenders a 'defense post' to return to when they have no more targets
-		((T850) Arnold).setPost(new Location(T850Post[0], T850Post[1]));
-		((T1K) T1K1).setPost(new Location(T1K1Post[0], T1K1Post[1]));
-		((T1K) T1K2).setPost(new Location(T1K2Post[0], T1K2Post[1]));
+		((T850) Arnold).setPost(T850Post);
+		((T1K) T1K1).setPost(T1K1Post);
+		((T1K) T1K2).setPost(T1K2Post);
 
 		// Move back and forth to get more points in case it comes down to that
 		int eo = 0;

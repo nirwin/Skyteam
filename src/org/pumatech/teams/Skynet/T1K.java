@@ -44,8 +44,11 @@ public class T1K extends AbstractPlayer {
 		}
 		if (targets.size() > 0) {
 			return avoid(possibleMoveLocations, targets.get(0).getLocation());
-		} else {
+		} else if(post != null){
+			//System.out.println(this+" returning to post "+post);
 			return avoid(possibleMoveLocations, post);
+		} else {
+			return this.getLocation();
 		}
 	}
 	
