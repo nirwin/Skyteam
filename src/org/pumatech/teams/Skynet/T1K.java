@@ -12,7 +12,7 @@ import info.gridworld.grid.Location;
 public class T1K extends AbstractPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 	
-	private ArrayList<Location> targets = new ArrayList<Location>();
+	private ArrayList<AbstractPlayer> targets = new ArrayList<AbstractPlayer>();
 	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
@@ -24,9 +24,9 @@ public class T1K extends AbstractPlayer {
 
 	public Location getMoveLocation() {
 		// eliminate targets not on side
-		ArrayList<Location> temp = new ArrayList<Location>(targets);
-		for (Location enemy : targets) {
-			if (!this.getTeam().onSide(enemy)) {
+		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(targets);
+		for (AbstractPlayer enemy : targets) {
+			if (!this.getTeam().onSide(enemy.getLocation())) {
 				temp.remove(enemy);
 			}
 		}
@@ -43,13 +43,13 @@ public class T1K extends AbstractPlayer {
 			}
 		}
 		if (targets.size() > 0) {
-			return avoid(possibleMoveLocations, targets.get(0));
+			return avoid(possibleMoveLocations, targets.get(0).getLocation());
 		} else {
 			return avoid(possibleMoveLocations, post);
 		}
 	}
 	
-	public void addTarget(Location targ) {
+	public void addTarget(AbstractPlayer targ) {
 		targets.add(targ);
 	}
 	

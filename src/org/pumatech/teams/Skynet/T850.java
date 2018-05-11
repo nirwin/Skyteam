@@ -13,7 +13,7 @@ public class T850 extends AbstractPlayer {
 	// processes a list of targets and moves to intercept, then returns
 	// to the flag if there are no more targets given to it by Skynet
 
-	private ArrayList<Location> targets = new ArrayList<Location>();
+	private ArrayList<AbstractPlayer> targets = new ArrayList<AbstractPlayer>();
 	private Location post;
 	private Location pastLocation;
 	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
@@ -24,9 +24,9 @@ public class T850 extends AbstractPlayer {
 
 	public Location getMoveLocation() {
 		// eliminate targets not on side
-		ArrayList<Location> temp = new ArrayList<Location>(targets);
-		for (Location enemy : targets) {
-			if (!this.getTeam().onSide(enemy)) {
+		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(targets);
+		for (AbstractPlayer enemy : targets) {
+			if (!this.getTeam().onSide(enemy.getLocation())) {
 				temp.remove(enemy);
 			}
 		}
@@ -38,19 +38,19 @@ public class T850 extends AbstractPlayer {
 			return null;
 		}
 		if (locationBlacklist.size() > 8) {
-			for (int i = 0; i < locationBlacklist.size() - 4; i++) {
+			for (int i = 0; i < locationBlacklist.size() - 8; i++) {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
 		}
 		if (targets.size() > 0) {
-			System.out.println("T850 Targets:"+targets);
-			return avoid(possibleMoveLocations, targets.get(0));
+			//System.out.println("T850 Targets:"+targets);
+			return avoid(possibleMoveLocations, targets.get(0).getLocation());
 		} else {
 			return avoid(possibleMoveLocations, post);
 		}
 	}
 
-	public void addTarget(Location targ) {
+	public void addTarget(AbstractPlayer targ) {
 		targets.add(targ);
 	}
 
