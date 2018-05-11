@@ -17,25 +17,25 @@ public class SkynetDupe extends AbstractPlayer {
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 		// set defense posts
-		if(this.getTeam().getSide() == 0) {
-			T850Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
-			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
-		
-			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
-			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow()+3;
-		
-			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
-			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow()-3;
-		}else if(this.getTeam().getSide() == 0) {
-			T850Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
-			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
-		
-			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
-			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow()+3;
-		
-			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
-			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow()-3;
-		}
+//		if(this.getTeam().getSide() == 0) {
+//			T850Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
+//			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
+//		
+//			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
+//			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow()+3;
+//		
+//			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol()+3;
+//			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow()-3;
+//		}else if(this.getTeam().getSide() == 0) {
+//			T850Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
+//			T850Post[1] = this.getTeam().getFlag().getLocation().getRow();
+//		
+//			T1K1Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
+//			T1K1Post[1] = this.getTeam().getFlag().getLocation().getRow()+3;
+//		
+//			T1K2Post[0] = this.getTeam().getFlag().getLocation().getCol()-3;
+//			T1K2Post[1] = this.getTeam().getFlag().getLocation().getRow()-3;
+//		}
 	}
 	// Updates static variables of other players and defends the flag against
 	// attackers
@@ -61,16 +61,16 @@ public class SkynetDupe extends AbstractPlayer {
 		}
 
 		// importing enemy players into ArrayList a
-		List<AbstractPlayer> a = this.getTeam().getOpposingTeam().getPlayers();
+		List<AbstractPlayer> enemyPlayers = this.getTeam().getOpposingTeam().getPlayers();
 		
 		// creating a array of distances from enemy players to flag
 		// (and removing players not on our side)
 		ArrayList<Integer> distances = new ArrayList<Integer>();
 		
-		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(a);
+		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(enemyPlayers);
 		int flagc = this.getTeam().getFlag().getLocation().getCol();
 		int flagr = this.getTeam().getFlag().getLocation().getRow();
-		for (AbstractPlayer enemy : a) {
+		for (AbstractPlayer enemy : enemyPlayers) {
 			if (this.getTeam().onSide(enemy.getLocation())) {
 				int tem = (int) Math.sqrt(Math.pow(Math.abs(enemy.getLocation().getCol() - flagc), 2)
 						+ Math.pow(Math.abs(enemy.getLocation().getRow() - flagr), 2));
@@ -79,8 +79,8 @@ public class SkynetDupe extends AbstractPlayer {
 				temp.remove(enemy);
 			}
 		}
-		a = temp;
-		if(a.size() <= 0) {
+		enemyPlayers = temp;
+		if(enemyPlayers.size() <= 0) {
 			return this.getLocation();
 		}
 		
@@ -90,24 +90,24 @@ public class SkynetDupe extends AbstractPlayer {
 		for (int i = 0; i < distances.size(); i++) {
 			// Give T850 targets outside of 24 units from flag
 			if (distances.get(i) > 24) {
-				((T850) Arnold).addTarget(a.get(i));
+				((T850) Arnold).addTarget(enemyPlayers.get(i));
 				//System.out.println("Sent "+a.get(i)+"To T850");
 				distances.remove(i);
 			}
 			// Give T1Ks targets within 24 units from flag according to proximity
 			else {
 				int d1 = (int) Math
-						.sqrt(Math.pow(Math.abs(a.get(i).getLocation().getCol() - T1K1.getLocation().getCol()), 2)
-								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K1.getLocation().getCol()), 2));
+						.sqrt(Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K1.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K1.getLocation().getCol()), 2));
 				int d2 = (int) Math
-						.sqrt(Math.pow(Math.abs(a.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
-								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
+						.sqrt(Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
 				if (d1 <= d2) {
-					((T1K) T1K1).addTarget(a.get(i));
+					((T1K) T1K1).addTarget(enemyPlayers.get(i));
 					//System.out.println("Sent "+a.get(i)+"To T1K 1");
 					distances.remove(i);
 				} else {
-					((T1K) T1K2).addTarget(a.get(i));
+					((T1K) T1K2).addTarget(enemyPlayers.get(i));
 					//System.out.println("Sent "+a.get(i)+"To T1K 2");
 					distances.remove(i);
 				}
