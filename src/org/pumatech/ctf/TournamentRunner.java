@@ -27,7 +27,7 @@ public class TournamentRunner {
 		teams.add(new SkynetTeam("Exploding Kitten"/*Color.WHITE*/));
 		
 		Bracket bracket = new Bracket(teams);
-		JFrame bracketViewer = new JFrame("Capture The Flag 2017 Bracket");
+		JFrame bracketViewer = new JFrame("Capture The Flag 2018 Bracket");
 		bracketViewer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		bracketViewer.setResizable(false);
 		bracketViewer.add(bracket);
