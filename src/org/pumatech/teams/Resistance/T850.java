@@ -1,4 +1,4 @@
-package org.pumatech.teams.Skynet;
+package org.pumatech.teams.Resistance;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.pumatech.teams.Skynet;
+package org.pumatech.teams.Resistance;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,10 +10,11 @@ import info.gridworld.grid.Location;
 
 public class SkynetDupe extends AbstractPlayer {
 
-	private Location T850Post = new Location(0, 0);
-	private Location T1K1Post = new Location(0, 0);
-	private Location T1K2Post = new Location(0, 0);
-
+	private boolean doOnceToggle = false;
+	private Location T850Post = new Location(0,0);
+	private Location T1K1Post = new Location(0,0);
+	private Location T1K2Post = new Location(0,0);
+	
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 	}
@@ -22,27 +23,30 @@ public class SkynetDupe extends AbstractPlayer {
 
 	public Location getMoveLocation() {
 
-		// set defense posts
-		if (this.getTeam().getSide() == 0) {
-			T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
-			T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
+		if(doOnceToggle == false) {
+			doOnceToggle = true;
+			// set defense posts
+			if (this.getTeam().getSide() == 0) {
+				T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
 
-			T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
-			T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
+				T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
 
-			T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
-			T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
-		} else if (this.getTeam().getSide() == 1) {
-			T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
-			T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
+				T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() + 3);
+				T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
+			} else if (this.getTeam().getSide() == 1) {
+				T850Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T850Post.setRow(this.getTeam().getFlag().getLocation().getRow());
 
-			T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
-			T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
+				T1K1Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T1K1Post.setRow(this.getTeam().getFlag().getLocation().getRow() + 3);
 
-			T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
-			T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
+				T1K2Post.setCol(this.getTeam().getFlag().getLocation().getCol() - 3);
+				T1K2Post.setRow(this.getTeam().getFlag().getLocation().getRow() - 3);
+			}
 		}
-
+		
 		// getting the indices of defensive players
 		List<AbstractPlayer> b = this.getTeam().getPlayers();
 		AbstractPlayer T1K1 = null;
@@ -63,11 +67,11 @@ public class SkynetDupe extends AbstractPlayer {
 
 		// importing enemy players into ArrayList a
 		List<AbstractPlayer> enemyPlayers = this.getTeam().getOpposingTeam().getPlayers();
-
+		
 		// creating a array of distances from enemy players to flag
 		// (and removing players not on our side)
 		ArrayList<Integer> distances = new ArrayList<Integer>();
-
+		
 		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(enemyPlayers);
 		int flagc = this.getTeam().getFlag().getLocation().getCol();
 		int flagr = this.getTeam().getFlag().getLocation().getRow();
@@ -81,10 +85,10 @@ public class SkynetDupe extends AbstractPlayer {
 			}
 		}
 		enemyPlayers = temp;
-		if (enemyPlayers.size() <= 0) {
+		if(enemyPlayers.size() <= 0) {
 			return this.getLocation();
 		}
-
+		
 		// sort target list by distance (in ascending order)
 		Collections.sort(distances);
 
@@ -92,41 +96,29 @@ public class SkynetDupe extends AbstractPlayer {
 			// Give T850 targets outside of 24 units from flag
 			if (distances.get(i) > 24) {
 				((T850) Arnold).addTarget(enemyPlayers.get(i));
-				// System.out.println("Sent "+a.get(i)+"To T850");
+				//System.out.println("Sent "+a.get(i)+"To T850");
 				distances.remove(i);
 			}
 			// Give T1Ks targets within 24 units from flag according to proximity
 			else {
-				int d1 = (int) Math.sqrt(Math
-						.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K1.getLocation().getCol()), 2)
-						+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K1.getLocation().getCol()),
-								2));
-				int d2 = (int) Math.sqrt(Math
-						.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
-						+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K2.getLocation().getCol()),
-								2));
+				int d1 = (int) Math
+						.sqrt(Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K1.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K1.getLocation().getCol()), 2));
+				int d2 = (int) Math
+						.sqrt(Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
+								+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
 				if (d1 <= d2) {
-<<<<<<< HEAD
-					System.out.println("add target tk1");
-					((T1K) T1K1).addTarget(a.get(i).getLocation());
-=======
 					((T1K) T1K1).addTarget(enemyPlayers.get(i));
-					// System.out.println("Sent "+a.get(i)+"To T1K 1");
->>>>>>> branch 'master' of https://github.com/nirwin/Skyteam.git
+					//System.out.println("Sent "+a.get(i)+"To T1K 1");
 					distances.remove(i);
 				} else {
-<<<<<<< HEAD
-					System.out.println("add target tk2m2");
-					((T1K) T1K2).addTarget(a.get(i).getLocation());
-=======
 					((T1K) T1K2).addTarget(enemyPlayers.get(i));
-					// System.out.println("Sent "+a.get(i)+"To T1K 2");
->>>>>>> branch 'master' of https://github.com/nirwin/Skyteam.git
+					//System.out.println("Sent "+a.get(i)+"To T1K 2");
 					distances.remove(i);
 				}
 			}
 		}
-
+		
 		// Give defenders a 'defense post' to return to when they have no more targets
 		((T850) Arnold).setPost(T850Post);
 		((T1K) T1K1).setPost(T1K1Post);

@@ -6,16 +6,15 @@ import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
-import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
-public class T1K extends AbstractPlayer {
+public class T1K extends MovingPlayer {
 	// Stays around the flag and moves to intercept opposing players within a square
 	
-	private ArrayList<Location> targets = new ArrayList<Location>();
+	private ArrayList<AbstractPlayer> targets = new ArrayList<AbstractPlayer>();
 	private Location post;
 	private Location pastLocation;
-	static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
+	//static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 	
 	public T1K(Location startLocation) {
 		super(startLocation);
@@ -24,9 +23,9 @@ public class T1K extends AbstractPlayer {
 
 	public Location getMoveLocation() {
 		// eliminate targets not on side
-		ArrayList<Location> temp = new ArrayList<Location>(targets);
-		for (Location enemy : targets) {
-			if (!this.getTeam().onSide(enemy)) {
+		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(targets);
+		for (AbstractPlayer enemy : targets) {
+			if (!this.getTeam().onSide(enemy.getLocation())) {
 				temp.remove(enemy);
 			}
 		}
@@ -34,22 +33,25 @@ public class T1K extends AbstractPlayer {
 
 		// path finding
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation());
-		if (possibleMoveLocations.size() == 0) {
+		if (possibleMoveLocations.size() <= 0) {
 			return null;
 		}
-		if (locationBlacklist.size() > 8) {
-			for (int i = 0; i < locationBlacklist.size() - 4; i++) {
+		/*if (locationBlacklist.size() > blacklistSize) {
+			for (int i = 0; i < locationBlacklist.size() - blacklistSize; i++) {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
-		}
+		}*/
 		if (targets.size() > 0) {
-			return avoid(possibleMoveLocations, targets.get(0));
-		} else {
+			return avoid(possibleMoveLocations, targets.get(0).getLocation());
+		} else if(post != null){
+			//System.out.println(this+" returning to post "+post);
 			return avoid(possibleMoveLocations, post);
+		} else {
+			return this.getLocation();
 		}
 	}
 	
-	public void addTarget(Location targ) {
+	public void addTarget(AbstractPlayer targ) {
 		targets.add(targ);
 	}
 	
@@ -79,7 +81,7 @@ public class T1K extends AbstractPlayer {
 				if(this.getGrid().getEmptyAdjacentLocations(l).size() > 1 && 
 					Math.abs(this.getLocation().getDirectionToward(l) - this.getLocation().
 					getDirectionToward(target)) <= 90) {
-					if(!locationBlacklist.contains(l)) {
+					if(!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
 						best = l;
 					}
 				}else {

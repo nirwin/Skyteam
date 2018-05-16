@@ -1,73 +1,65 @@
-package org.pumatech.teams.Skynet;
+package org.pumatech.teams.Resistance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pumatech.ctf.AbstractPlayer;
+import org.pumatech.ctf.*;
 
+import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
-public class T850 extends MovingPlayer {
+/*
+This is Skynet's main offensive player.
+This class is my pride and joy. Break it and I will do bad things to you. 
+-Jeffrey Collins
+*/
 
-	// processes a list of targets and moves to intercept, then returns
-	// to the flag if there are no more targets given to it by Skynet
+public class Moto extends MovingPlayer {
 
-	private ArrayList<AbstractPlayer> targets = new ArrayList<AbstractPlayer>();
-	private Location post;
 	private Location pastLocation;
-	//static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
+	// static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
-	public T850(Location startLocation) {
+	public Moto(Location startLocation) {
 		super(startLocation);
-		//pastLocation = this.getLocation();
+		// pastLocation = this.getLocation();
 	}
 
 	public Location getMoveLocation() {
-		// eliminate targets not on side
-		ArrayList<AbstractPlayer> temp = new ArrayList<AbstractPlayer>(targets);
-		for (AbstractPlayer enemy : targets) {
-			if (!this.getTeam().onSide(enemy.getLocation())) {
-				temp.remove(enemy);
-			}
-		}
-		targets = temp;
-
-		// path finding
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation());
-		if (possibleMoveLocations.size() <= 0) {
+		if (possibleMoveLocations.size() == 0) {
 			return null;
 		}
-		/*if (locationBlacklist.size() > blacklistSize) {
+		if (locationBlacklist.size() > blacklistSize) {
 			for (int i = 0; i < locationBlacklist.size() - blacklistSize; i++) {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
-		}*/
-		if (targets.size() > 0) {
-			//System.out.println("T850 Targets:"+targets);
-			return avoid(possibleMoveLocations, targets.get(0).getLocation());
-		} else if(post != null){
-			//System.out.println(this+" returning to post "+post);
-			return avoid(possibleMoveLocations, post);
-		} else {
-			return this.getLocation();
 		}
-	}
-
-	public void addTarget(AbstractPlayer targ) {
-		targets.add(targ);
-	}
-
-	public void setPost(Location def) {
-		post = def;
+		if (hasFlag()) {
+			return avoid(possibleMoveLocations, this.getTeam().getFlag().getLocation());
+		}
+		return avoid(possibleMoveLocations, this.getTeam().getOpposingTeam().getFlag().getLocation());
 	}
 
 	public Location avoid(List<Location> scan, Location target) {
-		if(target == null) { return this.getLocation(); }
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		for (Location test : scan) {
 			for (Location temmie : locationBlacklist) {
 				if (test == temmie) {
 					temp.remove(test);
+				}
+			}
+			if (test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
+				// test for attacker 'auras'
+				List<AbstractPlayer> theirPlayers = this.getTeam().getOpposingTeam().getPlayers();
+				for (AbstractPlayer detect : theirPlayers) {
+					if (this.getGrid().get(test) == detect) {
+						temp.remove(test);
+					}
+					for (Actor a : this.getGrid().getNeighbors(detect.getLocation())) {
+						if (a.equals(detect)) {
+							temp.remove(test);
+						}
+					}
 				}
 			}
 		}
@@ -83,7 +75,7 @@ public class T850 extends MovingPlayer {
 				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1
 						&& Math.abs(this.getLocation().getDirectionToward(l)
 								- this.getLocation().getDirectionToward(target)) <= 90) {
-					if (!locationBlacklist.contains(l)  && !l.equals(pastLocation)) {
+					if (!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
 						best = l;
 					}
 				} else {
@@ -102,4 +94,5 @@ public class T850 extends MovingPlayer {
 		pastLocation = this.getLocation();
 		return best;
 	}
+
 }
