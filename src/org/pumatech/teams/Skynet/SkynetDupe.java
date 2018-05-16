@@ -106,22 +106,12 @@ public class SkynetDupe extends AbstractPlayer {
 						+ Math.pow(Math.abs(enemyPlayers.get(i).getLocation().getRow() - T1K2.getLocation().getCol()),
 								2));
 				if (d1 <= d2) {
-<<<<<<< HEAD
-					System.out.println("add target tk1");
-					((T1K) T1K1).addTarget(a.get(i).getLocation());
-=======
 					((T1K) T1K1).addTarget(enemyPlayers.get(i));
 					// System.out.println("Sent "+a.get(i)+"To T1K 1");
->>>>>>> branch 'master' of https://github.com/nirwin/Skyteam.git
 					distances.remove(i);
 				} else {
-<<<<<<< HEAD
-					System.out.println("add target tk2m2");
-					((T1K) T1K2).addTarget(a.get(i).getLocation());
-=======
 					((T1K) T1K2).addTarget(enemyPlayers.get(i));
 					// System.out.println("Sent "+a.get(i)+"To T1K 2");
->>>>>>> branch 'master' of https://github.com/nirwin/Skyteam.git
 					distances.remove(i);
 				}
 			}
