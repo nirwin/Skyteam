@@ -93,33 +93,35 @@ public class T1K extends MovingPlayer {
 		scan = temp;
 
 		// determine optimal direction
-		int minDir = 360;
-		Location best = scan.get(0);
-		for (Location l : scan) {
-			int a = this.getLocation().getDirectionToward(l);
-			int t = this.getLocation().getDirectionToward(target);
-			if (Math.abs(t - a) < minDir) {
-				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
-					if (!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
-						best = l;
+				int minDir = 360;
+				Location best = scan.get(0);
+				for (Location l : scan) {
+					int a = this.getLocation().getDirectionToward(l);
+					int t = this.getLocation().getDirectionToward(target);
+					if (Math.abs(t - a) < minDir) {
+						if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
+							if (!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
+								best = l;
+							}
+						}
+						// originally here
+						minDir = Math.abs(t - a);
 					}
 				}
-				if(Math.abs(this.getLocation().getDirectionToward(l)
-						- this.getLocation().getDirectionToward(target)) > 90){
-					if (!locationBlacklist.contains(l)) {
-						locationBlacklist.add(l);
+				if (Math.abs(this.getLocation().getDirectionToward(best) - 
+						this.getLocation().getDirectionToward(target)) >= 90) {
+					// new Rock().putSelfInGrid(this.getGrid(),best);
+					if (!locationBlacklist.contains(best)) {
+						locationBlacklist.add(best);
 					}
 				}
-				minDir = Math.abs(t - a);
-				if (l.equals(pastLocation)) {
-					if (!locationBlacklist.contains(l)) {
-						locationBlacklist.add(l);
-						//System.out.println("added "+l+", past = "+pastLocation);
+				if (best.equals(pastLocation)) {
+					if (!locationBlacklist.contains(best)) {
+						locationBlacklist.add(best);
+						// System.out.println("added "+l+", past = "+pastLocation);
 					}
 				}
-			}
-		}
-		pastLocation = this.getLocation();
-		return best;
+				pastLocation = this.getLocation();
+				return best;
 	}
 }

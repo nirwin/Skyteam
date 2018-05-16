@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.pumatech.teams.Skynet.SkynetTeam;
-import org.pumatech.teams.Resistance.ResistTeam;
 import org.pumatech.teams.sample.SampleTeam;
 
 public class TournamentRunner {
@@ -16,22 +15,22 @@ public class TournamentRunner {
 		List<Team> teams = new ArrayList<Team>();
 		// *Terminator joke*
 		teams.add(new SkynetTeam("Skynet", Color.WHITE));
-		teams.add(new ResistTeam("Resistance", Color.LIGHT_GRAY));
+		teams.add(new SkynetTeam("Resistance", Color.LIGHT_GRAY));
 		// chaos vs. serenity
 		teams.add(new SampleTeam("Blender Blimp", Color.RED));
-		teams.add(new ResistTeam("Karmadillo", Color.ORANGE));
+		teams.add(new SkynetTeam("Karmadillo", Color.ORANGE));
 		// APCS jokes
-		teams.add(new ResistTeam("Herbert", Color.YELLOW));
+		teams.add(new SkynetTeam("Herbert", Color.YELLOW));
 		teams.add(new SkynetTeam("Squiggum", Color.BLUE));
 		// indifference vs. panic
 		teams.add(new SampleTeam("Eh", Color.PINK));
-		teams.add(new ResistTeam("AAAAAAAAAAAAAAAA", Color.CYAN));
+		teams.add(new SkynetTeam("AAAAAAAAAAAAAAAA", Color.CYAN));
 		// Exploding Kittens
-		teams.add(new ResistTeam("Defuse", new Color(153, 255, 0)));
+		teams.add(new SkynetTeam("Defuse", new Color(153, 255, 0)));
 		teams.add(new SkynetTeam("Exploding Kitten"/* Color.WHITE */));
 		// programming jokes
 		teams.add(new SkynetTeam("College Board", Color.BLACK));
-		teams.add(new ResistTeam("Git", Color.MAGENTA));
+		teams.add(new SkynetTeam("Git", Color.MAGENTA));
 		// IDK
 		teams.add(new SkynetTeam("Totodiles", new Color(0, 204, 255)));
 		teams.add(new SampleTeam("StackOverflow", new Color(255, 102, 0)));
