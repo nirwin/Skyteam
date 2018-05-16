@@ -19,7 +19,7 @@ public class SkynetDupe extends AbstractPlayer {
 	}
 	// Updates static variables of other players and defends the flag against
 	// attackers
-
+	int eo = 0; 
 	public Location getMoveLocation() {
 
 		// set defense posts
@@ -80,10 +80,7 @@ public class SkynetDupe extends AbstractPlayer {
 				temp.remove(enemy);
 			}
 		}
-		enemyPlayers = temp;
-		if (enemyPlayers.size() <= 0) {
-			return this.getLocation();
-		}
+		enemyPlayers = temp;		
 
 		// sort target list by distance (in ascending order)
 		Collections.sort(distances);
@@ -123,9 +120,9 @@ public class SkynetDupe extends AbstractPlayer {
 		((T1K) T1K2).setPost(T1K2Post);
 
 		// Move back and forth to get more points in case it comes down to that
-		int eo = 0;
-		Location a1 = new Location(0, 0);
-		Location a2 = new Location(50, 100);
+		
+		Location a1 = new Location(0,0);
+		Location a2 = new Location(90,40);
 		if (eo % 2 <= 0) {
 			eo++;
 			return a1;
