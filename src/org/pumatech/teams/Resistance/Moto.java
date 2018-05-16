@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.pumatech.ctf.*;
+import org.pumatech.teams.Skynet.SkynetTeam;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
@@ -17,6 +18,7 @@ This class is my pride and joy. Break it and I will do bad things to you.
 public class Moto extends MovingPlayer {
 
 	private Location pastLocation;
+	private ArrayList<Location> stuckOnYou = new ArrayList<Location>();
 	// static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
 	public Moto(Location startLocation) {
@@ -32,6 +34,11 @@ public class Moto extends MovingPlayer {
 		if (locationBlacklist.size() > blacklistSize) {
 			for (int i = 0; i < locationBlacklist.size() - blacklistSize; i++) {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
+			}
+		}
+		if (stuckOnYou.size() > blacklistSize) {
+			for (int i = 0; i < stuckOnYou.size() - blacklistSize; i++) {
+				stuckOnYou.remove(stuckOnYou.size() - 1);
 			}
 		}
 		if (hasFlag()) {
@@ -59,6 +66,15 @@ public class Moto extends MovingPlayer {
 						if (a.equals(detect)) {
 							temp.remove(test);
 						}
+						if (!(detect.getTeam() instanceof SkynetTeam)) {
+							if (detect.getMoveLocation() != null) {
+								for (Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
+									if (a == getGrid().get(tem)) {
+										temp.remove(test);
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -72,13 +88,13 @@ public class Moto extends MovingPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if (Math.abs(t - a) < minDir) {
-				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1
-						&& Math.abs(this.getLocation().getDirectionToward(l)
-								- this.getLocation().getDirectionToward(target)) <= 90) {
+				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
 					if (!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
 						best = l;
 					}
-				} else {
+				}
+				if(Math.abs(this.getLocation().getDirectionToward(l)
+						- this.getLocation().getDirectionToward(target)) > 90){
 					if (!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
 					}
@@ -87,12 +103,20 @@ public class Moto extends MovingPlayer {
 				if (l.equals(pastLocation)) {
 					if (!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
+						if (!stuckOnYou.contains(l)) {
+						stuckOnYou.add(l);
+						}
+						//System.out.println("added "+l+", past = "+pastLocation);
 					}
 				}
 			}
 		}
 		pastLocation = this.getLocation();
 		return best;
+	}
+	
+	public void takeOnMe(){
+		System.out.println("I'm Stuck on " + stuckOnYou);
 	}
 
 }

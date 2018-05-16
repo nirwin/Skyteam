@@ -35,6 +35,11 @@ public class Moto extends MovingPlayer {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
 		}
+		if (stuckOnYou.size() > blacklistSize) {
+			for (int i = 0; i < stuckOnYou.size() - blacklistSize; i++) {
+				stuckOnYou.remove(stuckOnYou.size() - 1);
+			}
+		}
 		if (hasFlag()) {
 			return avoid(possibleMoveLocations, this.getTeam().getFlag().getLocation());
 		}
@@ -44,10 +49,8 @@ public class Moto extends MovingPlayer {
 	public Location avoid(List<Location> scan, Location target) {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		for (Location test : scan) {
-			for (Location temmie : locationBlacklist) {
-				if (test == temmie) {
-					temp.remove(test);
-				}
+			if (locationBlacklist.contains(test)) {
+				temp.remove(test);
 			}
 			if (test.getCol() != this.getLocation().getCol() && test.getRow() != this.getLocation().getRow()) {
 				// test for attacker 'auras'
@@ -82,13 +85,13 @@ public class Moto extends MovingPlayer {
 			int a = this.getLocation().getDirectionToward(l);
 			int t = this.getLocation().getDirectionToward(target);
 			if (Math.abs(t - a) < minDir) {
-				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1
-						&& Math.abs(this.getLocation().getDirectionToward(l)
-								- this.getLocation().getDirectionToward(target)) <= 90) {
+				if (this.getGrid().getEmptyAdjacentLocations(l).size() > 1) {
 					if (!locationBlacklist.contains(l) && !l.equals(pastLocation)) {
 						best = l;
 					}
-				} else {
+				}
+				if(Math.abs(this.getLocation().getDirectionToward(l)
+						- this.getLocation().getDirectionToward(target)) > 90){
 					if (!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
 					}
@@ -97,7 +100,9 @@ public class Moto extends MovingPlayer {
 				if (l.equals(pastLocation)) {
 					if (!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
+						if (!stuckOnYou.contains(l)) {
 						stuckOnYou.add(l);
+						}
 						//System.out.println("added "+l+", past = "+pastLocation);
 					}
 				}
@@ -107,9 +112,8 @@ public class Moto extends MovingPlayer {
 		return best;
 	}
 	
-	public String toString() //sample text
-	{
-		return (/*super.toString() + */"Stuck on " + stuckOnYou);
+	public void takeOnMe(){
+		System.out.println("I'm Stuck on " + stuckOnYou);
 	}
 
 }
