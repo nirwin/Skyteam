@@ -14,6 +14,9 @@ public class TournamentRunner {
 
 	public static void main(String[] args) {
 		List<Team> teams = new ArrayList<Team>();
+		// *Terminator joke*
+		teams.add(new SkynetTeam("Skynet", Color.WHITE));
+		teams.add(new ResistTeam("Resistance", Color.LIGHT_GRAY));
 		// chaos vs. serenity
 		teams.add(new SampleTeam("Blender Blimp", Color.RED));
 		teams.add(new ResistTeam("Karmadillo", Color.ORANGE));
@@ -32,9 +35,6 @@ public class TournamentRunner {
 		// IDK
 		teams.add(new SkynetTeam("Totodiles", new Color(0, 204, 255)));
 		teams.add(new SampleTeam("StackOverflow", new Color(255, 102, 0)));
-		// *Terminator joke*
-		teams.add(new SkynetTeam("Skynet", Color.WHITE));
-		teams.add(new ResistTeam("Resistance", Color.LIGHT_GRAY));
 		// Eh
 		teams.add(new SkynetTeam("IDK LOL", new Color(255, 153, 51)));
 		teams.add(new SampleTeam("Human Geography", new Color(102, 102, 0)));

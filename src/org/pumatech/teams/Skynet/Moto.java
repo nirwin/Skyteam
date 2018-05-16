@@ -17,6 +17,7 @@ This class is my pride and joy. Break it and I will do bad things to you.
 public class Moto extends MovingPlayer {
 
 	private Location pastLocation;
+	private ArrayList<Location> stuckOnYou = new ArrayList<Location>();
 	// static ArrayList<Location> locationBlacklist = new ArrayList<Location>();
 
 	public Moto(Location startLocation) {
@@ -96,12 +97,19 @@ public class Moto extends MovingPlayer {
 				if (l.equals(pastLocation)) {
 					if (!locationBlacklist.contains(l)) {
 						locationBlacklist.add(l);
+						stuckOnYou.add(l);
+						//System.out.println("added "+l+", past = "+pastLocation);
 					}
 				}
 			}
 		}
 		pastLocation = this.getLocation();
 		return best;
+	}
+	
+	public String toString()
+	{
+		return (/*super.toString() + */"Stuck on " + stuckOnYou);
 	}
 
 }
