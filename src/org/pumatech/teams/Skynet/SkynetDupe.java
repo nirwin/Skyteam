@@ -78,9 +78,11 @@ public class SkynetDupe extends AbstractPlayer {
 						.sqrt(Math.pow(Math.abs(a.get(i).getLocation().getCol() - T1K2.getLocation().getCol()), 2)
 								+ Math.pow(Math.abs(a.get(i).getLocation().getRow() - T1K2.getLocation().getCol()), 2));
 				if (d1 <= d2) {
+					System.out.println("add target tk1");
 					((T1K) T1K1).addTarget(a.get(i).getLocation());
 					distances.remove(i);
 				} else {
+					System.out.println("add target tk2m2");
 					((T1K) T1K2).addTarget(a.get(i).getLocation());
 					distances.remove(i);
 				}
