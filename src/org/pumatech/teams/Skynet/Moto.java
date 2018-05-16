@@ -107,7 +107,7 @@ public class Moto extends MovingPlayer {
 		return best;
 	}
 	
-	public String toString()
+	public String toString() //sample text
 	{
 		return (/*super.toString() + */"Stuck on " + stuckOnYou);
 	}
