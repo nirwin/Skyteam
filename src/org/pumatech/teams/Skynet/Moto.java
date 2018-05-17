@@ -82,6 +82,10 @@ public class Moto extends MovingPlayer {
 		}
 		scan = temp;
 
+		if (scan.size() <= 0) {
+			return this.getLocation();
+		}
+		
 		// determine optimal direction
 		int minDir = 360;
 		Location best = scan.get(0);

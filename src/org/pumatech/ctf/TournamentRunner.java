@@ -26,17 +26,19 @@ public class TournamentRunner {
 		teams.add(new SampleTeam("Eh", Color.PINK));
 		teams.add(new SkynetTeam("AAAAAAAAAAAAAAAA", Color.CYAN));
 		// Exploding Kittens
+		/*
 		teams.add(new SkynetTeam("Defuse", new Color(153, 255, 0)));
-		teams.add(new SkynetTeam("Exploding Kitten"/* Color.WHITE */));
+		teams.add(new SkynetTeam("Exploding Kitten"));
 		// programming jokes
 		teams.add(new SkynetTeam("College Board", Color.BLACK));
-		teams.add(new SkynetTeam("Git", Color.MAGENTA));
+		teams.add(new SampleTeam("Git", Color.MAGENTA));
 		// IDK
 		teams.add(new SkynetTeam("Totodiles", new Color(0, 204, 255)));
 		teams.add(new SampleTeam("StackOverflow", new Color(255, 102, 0)));
 		// Eh
 		teams.add(new SkynetTeam("IDK LOL", new Color(255, 153, 51)));
 		teams.add(new SampleTeam("Human Geography", new Color(102, 102, 0)));
+		*/
 
 		Bracket bracket = new Bracket(teams);
 		JFrame bracketViewer = new JFrame("Capture The Flag 2018 Bracket");
