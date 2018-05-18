@@ -82,8 +82,6 @@ public class SkynetDupe extends AbstractPlayer {
 		}
 		enemyPlayers = temp;		
 
-		// sort target list by distance (in ascending order)
-		Collections.sort(distances);
 
 		for (int i = 0; i < distances.size(); i++) {
 			// Give T850 targets outside of 24 units from flag
@@ -119,7 +117,7 @@ public class SkynetDupe extends AbstractPlayer {
 		((T1K) T1K1).setPost(T1K1Post);
 		((T1K) T1K2).setPost(T1K2Post);
 
-		// Move back and forth to get more points in case it comes down to that
+		// Move back and forth 
 		
 		Location a1 = new Location(0,0);
 		Location a2 = new Location(90,40);
