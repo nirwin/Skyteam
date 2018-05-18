@@ -1,7 +1,6 @@
 package org.pumatech.teams.Skynet;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
@@ -17,9 +16,11 @@ public class SkynetDupe extends AbstractPlayer {
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 	}
+
 	// Updates static variables of other players and defends the flag against
 	// attackers
-	int eo = 0; 
+	int eo = 0;
+
 	public Location getMoveLocation() {
 
 		// set defense posts
@@ -80,8 +81,7 @@ public class SkynetDupe extends AbstractPlayer {
 				temp.remove(enemy);
 			}
 		}
-		enemyPlayers = temp;		
-
+		enemyPlayers = temp;
 
 		for (int i = 0; i < distances.size(); i++) {
 			// Give T850 targets outside of 24 units from flag
@@ -117,10 +117,10 @@ public class SkynetDupe extends AbstractPlayer {
 		((T1K) T1K1).setPost(T1K1Post);
 		((T1K) T1K2).setPost(T1K2Post);
 
-		// Move back and forth 
-		
-		Location a1 = new Location(0,0);
-		Location a2 = new Location(90,40);
+		// Move back and forth
+
+		Location a1 = new Location(0, 0);
+		Location a2 = new Location(90, 40);
 		if (eo % 2 <= 0) {
 			eo++;
 			return a1;
