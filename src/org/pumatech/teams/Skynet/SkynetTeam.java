@@ -7,11 +7,13 @@ import info.gridworld.grid.Location;
 
 public class SkynetTeam extends Team{
 	public SkynetTeam() {
-		this("Skynet", Color.DARK_GRAY);
+		// should be this("Skynet", null); but Hettsy hasn't patched it yet
+		this("Skynet", Color.RED);
 	}
 	
 	public SkynetTeam(String name) {
-		this(name, Color.DARK_GRAY);
+		// should be this(name, null); but Hettsy hasn't patched it yet
+		this(name, Color.RED);
 	}
 	
 	public SkynetTeam(Color color) {
