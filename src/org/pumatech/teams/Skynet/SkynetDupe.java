@@ -16,7 +16,7 @@ public class SkynetDupe extends AbstractPlayer {
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 	}
-
+//hai
 	// Updates static variables of other players and defends the flag against
 	// attackers
 	int eo = 0;
