@@ -16,7 +16,7 @@ public class SkynetDupe extends AbstractPlayer {
 	public SkynetDupe(Location startLocation) {
 		super(startLocation);
 	}
-//hai
+	
 	// Updates static variables of other players and defends the flag against
 	// attackers
 	int eo = 0;
@@ -62,7 +62,7 @@ public class SkynetDupe extends AbstractPlayer {
 			}
 		}
 
-		// importing enemy players into ArrayList a
+		// importing enemy players into an ArrayList
 		List<AbstractPlayer> enemyPlayers = this.getTeam().getOpposingTeam().getPlayers();
 
 		// creating a array of distances from enemy players to flag
@@ -87,7 +87,6 @@ public class SkynetDupe extends AbstractPlayer {
 			// Give T850 targets outside of 24 units from flag
 			if (distances.get(i) > 24) {
 				((T850) Arnold).addTarget(enemyPlayers.get(i));
-				// System.out.println("Sent "+a.get(i)+"To T850");
 				distances.remove(i);
 			}
 			// Give T1Ks targets within 24 units from flag according to proximity
@@ -102,11 +101,9 @@ public class SkynetDupe extends AbstractPlayer {
 								2));
 				if (d1 <= d2) {
 					((T1K) T1K1).addTarget(enemyPlayers.get(i));
-					// System.out.println("Sent "+a.get(i)+"To T1K 1");
 					distances.remove(i);
 				} else {
 					((T1K) T1K2).addTarget(enemyPlayers.get(i));
-					// System.out.println("Sent "+a.get(i)+"To T1K 2");
 					distances.remove(i);
 				}
 			}
@@ -118,7 +115,6 @@ public class SkynetDupe extends AbstractPlayer {
 		((T1K) T1K2).setPost(T1K2Post);
 
 		// Move back and forth
-
 		Location a1 = new Location(0, 0);
 		Location a2 = new Location(90, 40);
 		if (eo % 2 <= 0) {

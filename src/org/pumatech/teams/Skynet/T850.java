@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
-import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
 public class T850 extends MovingPlayer {
@@ -60,7 +59,6 @@ public class T850 extends MovingPlayer {
 		}
 		// prevent concurrent modification exceptions
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
-		// remove unsafe movement options
 		for (Location test : scan) {
 			// remove blacklisted options
 			if (locationBlacklist.contains(test)) {

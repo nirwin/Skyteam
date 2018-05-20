@@ -14,12 +14,14 @@ This class is my pride and joy. Break it and I will be angry with you.
 -Jeffrey Collins
 */
 
-public class Moto extends MovingPlayer {
+public class DistractMoto extends MovingPlayer {
 
 	private Location pastLocation;
+	private int targetRow;
 
-	public Moto(Location startLocation) {
+	public DistractMoto(Location startLocation, int targetRow) {
 		super(startLocation);
+		this.targetRow = targetRow;
 	}
 
 	public Location getMoveLocation() {
@@ -33,12 +35,12 @@ public class Moto extends MovingPlayer {
 				locationBlacklist.remove(locationBlacklist.size() - 1);
 			}
 		}
-		// return to side if the flag is obtained
-		if (hasFlag()) {
-			return avoid(possibleMoveLocations, this.getTeam().getFlag().getLocation());
+		// go to corner of field to draw off defenders
+		if (this.getTeam().getOpposingTeam().getFlag().getLocation().getCol() < this.getLocation().getCol()) {
+			return avoid(possibleMoveLocations, new Location(targetRow, 0));
+		} else {
+			return avoid(possibleMoveLocations, new Location(targetRow, this.getGrid().getNumCols()-1));
 		}
-		// otherwise go towards the flag
-		return avoid(possibleMoveLocations, this.getTeam().getOpposingTeam().getFlag().getLocation());
 	}
 
 	public Location avoid(List<Location> scan, Location target) {

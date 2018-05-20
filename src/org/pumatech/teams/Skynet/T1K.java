@@ -57,7 +57,6 @@ public class T1K extends MovingPlayer {
 		}
 		// prevent concurrent modification exceptions
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
-		// remove unsafe movement options
 		for (Location test : scan) {
 			// remove blacklisted options
 			if (locationBlacklist.contains(test)) {
