@@ -50,6 +50,7 @@ public class Moto extends MovingPlayer {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		// remove unsafe movement options
 		for (Location test : scan) {
+			//remove blacklisted options
 			if (locationBlacklist.contains(test)) {
 				temp.remove(test);
 			}
@@ -101,8 +102,8 @@ public class Moto extends MovingPlayer {
 		// blacklist unsuitable locations
 		if (Math.abs(
 				this.getLocation().getDirectionToward(best) - this.getLocation().getDirectionToward(target)) >= 90) {
-			if (!locationBlacklist.contains(best)) {
-				locationBlacklist.add(best);
+			if (!locationBlacklist.contains(pastLocation)) {
+				locationBlacklist.add(pastLocation);
 			}
 		}
 		if (best.equals(pastLocation)) {

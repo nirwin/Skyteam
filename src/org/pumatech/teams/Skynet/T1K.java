@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.pumatech.ctf.AbstractPlayer;
 
-import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 
 public class T1K extends MovingPlayer {
@@ -52,15 +51,28 @@ public class T1K extends MovingPlayer {
 	}
 
 	public Location avoid(List<Location> scan, Location target) {
+		// do nothing if there are no empty locations
+		if (scan.size() <= 0) {
+			return this.getLocation();
+		}
+		// prevent concurrent modification exceptions
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
+		// remove unsafe movement options
 		for (Location test : scan) {
+			// remove blacklisted options
 			if (locationBlacklist.contains(test)) {
 				temp.remove(test);
 			}
 		}
+		// update scan
 		scan = temp;
 
-		// determine optimal direction
+		// do nothing if there are no safe locations
+		if (scan.size() <= 0) {
+			return this.getLocation();
+		}
+
+		// determine optimal location based on direction
 		int minDir = 360;
 		Location best = scan.get(0);
 		for (Location l : scan) {
@@ -75,17 +87,37 @@ public class T1K extends MovingPlayer {
 				minDir = Math.abs(t - a);
 			}
 		}
+		// blacklist unsuitable locations
 		if (Math.abs(
 				this.getLocation().getDirectionToward(best) - this.getLocation().getDirectionToward(target)) >= 90) {
-			if (!locationBlacklist.contains(best)) {
-				locationBlacklist.add(best);
+			if (!locationBlacklist.contains(pastLocation)) {
+				locationBlacklist.add(pastLocation);
 			}
 		}
 		if (best.equals(pastLocation)) {
+			// blacklist to prevent moving back
 			if (!locationBlacklist.contains(best)) {
 				locationBlacklist.add(best);
 			}
+			// take a step back
+			if (target.getCol() > this.getLocation().getCol()) {
+				if (this.getLocation().getCol() > 0) {
+					Location stepBack = new Location(this.getLocation().getCol() - 1, this.getLocation().getRow());
+					if (scan.contains(stepBack)) {
+						best = stepBack;
+					}
+				}
+			}
+			if (target.getCol() < this.getLocation().getCol()) {
+				if (this.getLocation().getCol() < this.getGrid().getNumCols()) {
+					Location stepBack = new Location(this.getLocation().getCol() + 1, this.getLocation().getRow());
+					if (scan.contains(stepBack)) {
+						best = stepBack;
+					}
+				}
+			}
 		}
+		// update pastLocation and return
 		pastLocation = this.getLocation();
 		return best;
 	}
