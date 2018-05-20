@@ -25,6 +25,9 @@ public class DistractMoto extends MovingPlayer {
 	}
 
 	public Location getMoveLocation() {
+		if(targetRow == 49) {
+			targetRow = this.getGrid().getNumRows()-1;
+		}
 		List<Location> possibleMoveLocations = this.getGrid().getEmptyAdjacentLocations(getLocation());
 		if (possibleMoveLocations.size() == 0) {
 			return null;
