@@ -91,8 +91,8 @@ public class T850 extends MovingPlayer {
 		// blacklist unsuitable locations
 		if (Math.abs(
 				this.getLocation().getDirectionToward(best) - this.getLocation().getDirectionToward(target)) >= 90) {
-			if (!locationBlacklist.contains(pastLocation)) {
-				locationBlacklist.add(pastLocation);
+			if (!locationBlacklist.contains(this.getLocation())) {
+				locationBlacklist.add(this.getLocation());
 			}
 		}
 		if (best.equals(pastLocation)) {

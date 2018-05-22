@@ -50,7 +50,7 @@ public class Moto extends MovingPlayer {
 		ArrayList<Location> temp = new ArrayList<Location>(scan);
 		// remove unsafe movement options
 		for (Location test : scan) {
-			//remove blacklisted options
+			// remove blacklisted options
 			if (locationBlacklist.contains(test)) {
 				temp.remove(test);
 			}
@@ -64,7 +64,8 @@ public class Moto extends MovingPlayer {
 					if (a.equals(detect)) {
 						temp.remove(test);
 					}
-					if (!(detect.getTeam() instanceof SkynetTeam)) {
+					/* if (!(detect.getTeam() instanceof SkynetTeam)) { */
+					if (!(detect instanceof Moto) && !(detect instanceof DistractMoto)) {
 						if (detect.getMoveLocation() != null) {
 							for (Location tem : getGrid().getEmptyAdjacentLocations(detect.getMoveLocation())) {
 								if (a == getGrid().get(tem)) {
@@ -102,8 +103,8 @@ public class Moto extends MovingPlayer {
 		// blacklist unsuitable locations
 		if (Math.abs(
 				this.getLocation().getDirectionToward(best) - this.getLocation().getDirectionToward(target)) >= 90) {
-			if (!locationBlacklist.contains(pastLocation)) {
-				locationBlacklist.add(pastLocation);
+			if (!locationBlacklist.contains(this.getLocation())) {
+				locationBlacklist.add(this.getLocation());
 			}
 		}
 		if (best.equals(pastLocation)) {
@@ -112,18 +113,18 @@ public class Moto extends MovingPlayer {
 				locationBlacklist.add(this.getLocation());
 			}
 			// take a step back
-			if(target.getCol() > this.getLocation().getCol()) {
-				if(this.getLocation().getCol() > 0) {
-					Location stepBack = new Location(this.getLocation().getCol()-1, this.getLocation().getRow());
-					if(scan.contains(stepBack)) {
+			if (target.getCol() > this.getLocation().getCol()) {
+				if (this.getLocation().getCol() > 0) {
+					Location stepBack = new Location(this.getLocation().getCol() - 1, this.getLocation().getRow());
+					if (scan.contains(stepBack)) {
 						best = stepBack;
 					}
 				}
 			}
-			if(target.getCol() < this.getLocation().getCol()) {
-				if(this.getLocation().getCol() < this.getGrid().getNumCols()) {
-					Location stepBack = new Location(this.getLocation().getCol()+1, this.getLocation().getRow());
-					if(scan.contains(stepBack)) {
+			if (target.getCol() < this.getLocation().getCol()) {
+				if (this.getLocation().getCol() < this.getGrid().getNumCols()) {
+					Location stepBack = new Location(this.getLocation().getCol() + 1, this.getLocation().getRow());
+					if (scan.contains(stepBack)) {
 						best = stepBack;
 					}
 				}
@@ -136,37 +137,39 @@ public class Moto extends MovingPlayer {
 
 	// formerly known as public void takeOnMe()
 	public void printMap() {
-		// print out game map
-		List<Location> occupied = this.getGrid().getOccupiedLocations();
-		for (int row = 0; row < this.getGrid().getNumRows(); row++) {
-			for (int col = 0; col < this.getGrid().getNumCols(); col++) {
-				Location scan = new Location(row, col);
-				if (occupied.contains(scan)) {
-					// print actors
-					Actor obj = this.getGrid().get(scan);
-					if (obj instanceof Rock) {
-						System.out.print("#");
-					} else if (obj instanceof Flag) {
-						System.out.print("F");
-					} else if (obj instanceof Moto) {
-						System.out.print("M");
-					} else if (obj instanceof T850) {
-						System.out.print("A");
-					} else if (obj instanceof T1K) {
-						System.out.print("T");
-					} else if (obj instanceof SkynetDupe) {
-						System.out.print("S");
+		if (locationBlacklist.size() > 0) {
+			// print out game map
+			List<Location> occupied = this.getGrid().getOccupiedLocations();
+			for (int row = 0; row < this.getGrid().getNumRows(); row++) {
+				for (int col = 0; col < this.getGrid().getNumCols(); col++) {
+					Location scan = new Location(row, col);
+					if (occupied.contains(scan)) {
+						// print actors
+						Actor obj = this.getGrid().get(scan);
+						if (obj instanceof Rock) {
+							System.out.print("#");
+						} else if (obj instanceof Flag) {
+							System.out.print("F");
+						} else if (obj instanceof Moto) {
+							System.out.print("M");
+						} else if (obj instanceof T850) {
+							System.out.print("A");
+						} else if (obj instanceof T1K) {
+							System.out.print("T");
+						} else if (obj instanceof SkynetDupe) {
+							System.out.print("S");
+						}
+					} else if (locationBlacklist.contains(scan)) {
+						// print blacklisted Locations
+						System.err.print("#");
+					} else {
+						// print empty
+						System.out.print("-");
 					}
-				} else if (locationBlacklist.contains(scan)) {
-					// print blacklisted Locations
-					System.err.print("#");
-				} else {
-					// print empty
-					System.out.print("-");
 				}
+				// new line
+				System.out.println();
 			}
-			// new line
-			System.out.println();
 		}
 	}
 

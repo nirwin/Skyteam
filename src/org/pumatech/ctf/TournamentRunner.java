@@ -34,8 +34,8 @@ public class TournamentRunner {
 		teams.add(new SkynetTeam("College Board", Color.BLACK));
 		teams.add(new SampleTeam("Git", Color.MAGENTA));
 		// IDK
-		teams.add(new SkynetTeam("Totodiles", new Color(0, 204, 255)));
 		teams.add(new SampleTeam("StackOverflow", new Color(255, 102, 0)));
+		teams.add(new SkynetTeam("Totodiles", new Color(0, 204, 255)));
 		/*
 		// Eh
 		teams.add(new SkynetTeam("IDK LOL", new Color(255, 153, 51)));
